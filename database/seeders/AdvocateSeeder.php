@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Advocate;
 use Illuminate\Database\Seeder;
 
 class AdvocateSeeder extends Seeder
@@ -12,6 +12,6 @@ class AdvocateSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+        Advocate::factory()->count(50)->create();
     }
 }
