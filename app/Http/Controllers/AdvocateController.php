@@ -21,8 +21,31 @@ class AdvocateController extends Controller
             ->allowedFilters([
                 AllowedFilter::partial('name'),
                 AllowedFilter::partial('email_address'),
+                AllowedFilter::partial('mobile_no'),
+                AllowedFilter::partial('father_husband_name'),
                 AllowedFilter::exact('is_active'),
                 AllowedFilter::exact('bar_association_id'),
+                AllowedFilter::partial('visitor_member_of_bar_association'),
+                AllowedFilter::partial('voter_member_of_bar_association'),
+                AllowedFilter::partial('permanent_member_of_bar_association'),
+                AllowedFilter::callback('date_of_enrolment_lower_courts_from', function ($query, $value) {
+                    $query->whereDate('date_of_enrolment_lower_courts', '>=', $value);
+                }),
+                AllowedFilter::callback('date_of_enrolment_lower_courts_to', function ($query, $value) {
+                    $query->whereDate('date_of_enrolment_lower_courts', '<=', $value);
+                }),
+                AllowedFilter::callback('date_of_enrolment_high_court_from', function ($query, $value) {
+                    $query->whereDate('date_of_enrolment_high_court', '>=', $value);
+                }),
+                AllowedFilter::callback('date_of_enrolment_high_court_to', function ($query, $value) {
+                    $query->whereDate('date_of_enrolment_high_court', '<=', $value);
+                }),
+                AllowedFilter::callback('date_of_enrolment_supreme_court_from', function ($query, $value) {
+                    $query->whereDate('date_of_enrolment_supreme_court', '>=', $value);
+                }),
+                AllowedFilter::callback('date_of_enrolment_supreme_court_to', function ($query, $value) {
+                    $query->whereDate('date_of_enrolment_supreme_court', '<=', $value);
+                }),
                 AllowedFilter::callback('show_deleted', function ($query, $value) {
                     if ($value == 1) {
                         $query->onlyTrashed();
@@ -32,6 +55,7 @@ class AdvocateController extends Controller
             ->allowedSorts([
                 AllowedSort::field('name'),
                 AllowedSort::field('email_address'),
+                AllowedSort::field('mobile_no'),
                 AllowedSort::field('is_active'),
                 AllowedSort::field('created_at'),
             ]);
@@ -142,5 +166,52 @@ class AdvocateController extends Controller
 
             return redirect()->back()->with('error', 'Failed to restore advocate. Please try again.');
         }
+    }
+
+    public function report(Request $request)
+    {
+        $query = QueryBuilder::for(Advocate::class)
+            ->allowedFilters([
+                AllowedFilter::partial('name'),
+                AllowedFilter::partial('email_address'),
+                AllowedFilter::partial('mobile_no'),
+                AllowedFilter::partial('father_husband_name'),
+                AllowedFilter::exact('is_active'),
+                AllowedFilter::exact('bar_association_id'),
+                AllowedFilter::partial('visitor_member_of_bar_association'),
+                AllowedFilter::partial('voter_member_of_bar_association'),
+                AllowedFilter::partial('permanent_member_of_bar_association'),
+                AllowedFilter::callback('date_of_enrolment_lower_courts_from', function ($query, $value) {
+                    $query->whereDate('date_of_enrolment_lower_courts', '>=', $value);
+                }),
+                AllowedFilter::callback('date_of_enrolment_lower_courts_to', function ($query, $value) {
+                    $query->whereDate('date_of_enrolment_lower_courts', '<=', $value);
+                }),
+                AllowedFilter::callback('date_of_enrolment_high_court_from', function ($query, $value) {
+                    $query->whereDate('date_of_enrolment_high_court', '>=', $value);
+                }),
+                AllowedFilter::callback('date_of_enrolment_high_court_to', function ($query, $value) {
+                    $query->whereDate('date_of_enrolment_high_court', '<=', $value);
+                }),
+                AllowedFilter::callback('date_of_enrolment_supreme_court_from', function ($query, $value) {
+                    $query->whereDate('date_of_enrolment_supreme_court', '>=', $value);
+                }),
+                AllowedFilter::callback('date_of_enrolment_supreme_court_to', function ($query, $value) {
+                    $query->whereDate('date_of_enrolment_supreme_court', '<=', $value);
+                })
+            ])
+            ->allowedSorts([
+                AllowedSort::field('name'),
+                AllowedSort::field('email_address'),
+                AllowedSort::field('mobile_no'),
+                AllowedSort::field('is_active'),
+                AllowedSort::field('created_at'),
+            ])
+            ->where('is_active', true);
+
+        $advocates = $query->paginate(100);
+        $barAssociations = BarAssociation::where('is_active', true)->get();
+
+        return view('advocates.report', compact('advocates', 'barAssociations'));
     }
 }

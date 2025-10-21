@@ -31,6 +31,7 @@ class UpdateAdvocateRequest extends FormRequest
             'date_of_enrolment_high_court' => 'nullable|date',
             'date_of_enrolment_supreme_court' => 'nullable|date',
             'voter_member_of_bar_association' => 'nullable|string|max:255',
+            'permanent_member_of_bar_association' => 'nullable|string|max:255',
             'duration_of_practice' => 'nullable|date',
             'mobile_no' => 'required|string|max:20',
             'email_address' => "required|email|unique:advocates,email_address,{$advocateId},id",
