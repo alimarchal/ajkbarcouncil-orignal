@@ -14,7 +14,7 @@ return new class extends Migration {
             $table->id();
             $table->string('log_name')->nullable();
             $table->text('description')->nullable();
-            $table->unsignedBigInteger('subject_id')->nullable();
+            $table->string('subject_id')->nullable();
             $table->string('subject_type')->nullable();
             $table->unsignedBigInteger('causer_id')->nullable();
             $table->string('causer_type')->nullable();
