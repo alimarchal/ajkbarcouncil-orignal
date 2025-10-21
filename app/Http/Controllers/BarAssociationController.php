@@ -95,8 +95,6 @@ class BarAssociationController extends Controller
         try {
             // Get validated data from form request
             $validated = $request->validated();
-            $validated['created_by'] = Auth::id();
-            $validated['updated_by'] = Auth::id();
 
             // Create bar association record in database
             $barAssociation = BarAssociation::create($validated);
@@ -183,7 +181,6 @@ class BarAssociationController extends Controller
         try {
             // Get validated data from form request
             $validated = $request->validated();
-            $validated['updated_by'] = Auth::id();
 
             // Update bar association record
             $isUpdated = $barAssociation->update($validated);

@@ -114,60 +114,46 @@
             @if ($barAssociations->count() > 0)
             <div class="relative overflow-x-auto rounded-lg">
                 <table class="min-w-max w-full table-auto text-sm">
-                    <thead class="bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-gray-300 font-semibold">
-                        <tr>
-                            <th class="px-4 py-2 text-left">Name</th>
-                            <th class="px-4 py-2 text-left">Status</th>
-                            <th class="px-4 py-2 text-left">Created By</th>
-                            <th class="px-4 py-2 text-left">Updated By</th>
-                            <th class="px-4 py-2 text-left">Created At</th>
-                            <th class="px-4 py-2 text-left">Actions</th>
+                    <thead>
+                        <tr class="bg-green-800 text-white uppercase text-sm">
+                            <th class="py-2 px-2 text-left">Name</th>
+                            <th class="py-2 px-2 text-center">Status</th>
+                            <th class="py-2 px-2 text-left">Created By</th>
+                            <th class="py-2 px-2 text-left">Updated By</th>
+                            <th class="py-2 px-2 text-left">Date</th>
+                            <th class="py-2 px-2 text-center print:hidden">Actions</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-gray-200 dark:divide-gray-600">
+                    <tbody class="text-black text-md leading-normal font-extrabold">
                         @foreach ($barAssociations as $barAssociation)
-                        <tr class="hover:bg-gray-50 dark:hover:bg-gray-700">
-                            <td class="px-4 py-2 text-gray-900 dark:text-gray-300">
+                        <tr class="border-b border-gray-200 hover:bg-gray-100">
+                            <td class="py-1 px-2 text-left">
                                 <a href="{{ route('bar-associations.show', $barAssociation) }}"
-                                    class="text-blue-600 dark:text-blue-400 hover:underline">
+                                    class="text-blue-600 hover:underline">
                                     {{ $barAssociation->name }}
                                 </a>
                             </td>
-                            <td class="px-4 py-2">
+                            <td class="py-1 px-2 text-center">
                                 <span
-                                    class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium {{ $barAssociation->is_active ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300' : 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300' }}">
+                                    class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium {{ $barAssociation->is_active ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
                                     {{ $barAssociation->is_active ? 'Active' : 'Inactive' }}
                                 </span>
                             </td>
-                            <td class="px-4 py-2 text-gray-700 dark:text-gray-400">
+                            <td class="py-1 px-2 text-left">
                                 {{ $barAssociation->createdByUser?->name ?? 'N/A' }}
                             </td>
-                            <td class="px-4 py-2 text-gray-700 dark:text-gray-400">
+                            <td class="py-1 px-2 text-left">
                                 {{ $barAssociation->updatedByUser?->name ?? 'N/A' }}
                             </td>
-                            <td class="px-4 py-2 text-gray-700 dark:text-gray-400 text-xs">
-                                {{ $barAssociation->created_at->format('d M, Y') }}
+                            <td class="py-1 px-2 text-left">
+                                {{ $barAssociation->created_at->format('d-m-Y') }}
                             </td>
-                            <td class="px-4 py-2">
-                                <div class="flex gap-2">
-                                    <a href="{{ route('bar-associations.show', $barAssociation) }}"
-                                        class="inline-flex items-center px-2 py-1 bg-blue-500 text-white text-xs rounded hover:bg-blue-600 transition">
-                                        View
-                                    </a>
+                            <td class="py-1 px-2 text-center">
+                                <div class="flex justify-center space-x-2">
                                     <a href="{{ route('bar-associations.edit', $barAssociation) }}"
-                                        class="inline-flex items-center px-2 py-1 bg-yellow-500 text-white text-xs rounded hover:bg-yellow-600 transition">
+                                        class="inline-flex items-center px-3 py-1 bg-blue-800 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 text-xs font-medium">
                                         Edit
                                     </a>
-                                    <form action="{{ route('bar-associations.destroy', $barAssociation) }}"
-                                        method="POST" class="inline"
-                                        onsubmit="return confirm('Are you sure you want to delete this bar association?');">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit"
-                                            class="inline-flex items-center px-2 py-1 bg-red-500 text-white text-xs rounded hover:bg-red-600 transition">
-                                            Delete
-                                        </button>
-                                    </form>
                                 </div>
                             </td>
                         </tr>
