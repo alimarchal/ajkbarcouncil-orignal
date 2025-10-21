@@ -216,16 +216,16 @@ describe('Advocate Create', function () {
                 'mobile_no' => '03001234567',
                 'complete_address' => 'Complete Address',
                 'is_active' => true,
-                'lower_courts' => '2015-01-15',
-                'high_court' => '2018-06-20',
-                'supreme_court' => '2020-09-10',
-                'duration_of_practice' => 15,
+                'date_of_enrolment_lower_courts' => '2015-01-15',
+                'date_of_enrolment_high_court' => '2018-06-20',
+                'date_of_enrolment_supreme_court' => '2020-09-10',
+                'duration_of_practice' => '2015-01-01',
             ]);
 
         $response->assertRedirect(route('advocates.index'));
         $advocate = Advocate::where('name', 'Advanced Advocate')->first();
         expect($advocate->date_of_enrolment_lower_courts)->not()->toBeNull();
-        expect($advocate->duration_of_practice)->toBe(15);
+        expect($advocate->duration_of_practice)->not()->toBeNull();
     });
 });
 

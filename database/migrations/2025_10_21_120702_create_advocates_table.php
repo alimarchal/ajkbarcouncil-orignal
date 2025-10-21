@@ -28,21 +28,26 @@ return new class extends Migration {
             // 5. Visitor Member of Bar Association
             $table->string('visitor_member_of_bar_association')->nullable();
 
-            // 6-9. Date of Enrolment (Courts) and Voter Date
+            // 6-9. Date of Enrolment (Courts)
             $table->date('date_of_enrolment_lower_courts')->nullable();
             $table->date('date_of_enrolment_high_court')->nullable();
             $table->date('date_of_enrolment_supreme_court')->nullable();
-            $table->date('voter_member_of_bar_association')->nullable();
 
-            // 10. Duration of Practice (Assuming this stores the start date for calculation)
+            // 10. Voter Member of Bar Association
+            $table->string('voter_member_of_bar_association')->nullable();
+
+            // 11. Permanent Member of Bar Association
+            $table->string('permanent_member_of_bar_association')->nullable();
+
+            // 12. Duration of Practice (Assuming this stores the start date for calculation)
             $table->date('duration_of_practice')->nullable();
 
-            // 11. Mobile No
+            // 13. Mobile No
             $table->string('mobile_no', 20);
-            // 12. Email Address
+            // 14. Email Address
             $table->string('email_address')->unique();
 
-            // 13. Is Active
+            // 15. Is Active
             $table->boolean('is_active')->default(true);
 
             $table->softDeletes();

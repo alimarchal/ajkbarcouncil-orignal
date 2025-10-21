@@ -81,31 +81,34 @@
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
                             <!-- Lower Courts Enrolment -->
                             <div>
-                                <x-label for="lower_courts" value="Lower Courts Enrolment Date" />
-                                <x-input id="lower_courts" type="date" name="lower_courts" class="mt-1 block w-full"
-                                    :value="old('lower_courts', $advocate->lower_courts)" />
+                                <x-label for="date_of_enrolment_lower_courts" value="Lower Courts Enrolment Date" />
+                                <x-input id="date_of_enrolment_lower_courts" type="date"
+                                    name="date_of_enrolment_lower_courts" class="mt-1 block w-full"
+                                    :value="old('date_of_enrolment_lower_courts', $advocate->date_of_enrolment_lower_courts)" />
                             </div>
 
                             <!-- High Court Enrolment -->
                             <div>
-                                <x-label for="high_court" value="High Court Enrolment Date" />
-                                <x-input id="high_court" type="date" name="high_court" class="mt-1 block w-full"
-                                    :value="old('high_court', $advocate->high_court)" />
+                                <x-label for="date_of_enrolment_high_court" value="High Court Enrolment Date" />
+                                <x-input id="date_of_enrolment_high_court" type="date"
+                                    name="date_of_enrolment_high_court" class="mt-1 block w-full"
+                                    :value="old('date_of_enrolment_high_court', $advocate->date_of_enrolment_high_court)" />
                             </div>
 
                             <!-- Supreme Court Enrolment -->
                             <div>
-                                <x-label for="supreme_court" value="Supreme Court Enrolment Date" />
-                                <x-input id="supreme_court" type="date" name="supreme_court" class="mt-1 block w-full"
-                                    :value="old('supreme_court', $advocate->supreme_court)" />
+                                <x-label for="date_of_enrolment_supreme_court" value="Supreme Court Enrolment Date" />
+                                <x-input id="date_of_enrolment_supreme_court" type="date"
+                                    name="date_of_enrolment_supreme_court" class="mt-1 block w-full"
+                                    :value="old('date_of_enrolment_supreme_court', $advocate->date_of_enrolment_supreme_court)" />
                             </div>
                         </div>
 
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
                             <!-- Duration of Practice -->
                             <div>
-                                <x-label for="duration_of_practice" value="Duration of Practice (Years)" />
-                                <x-input id="duration_of_practice" type="number" name="duration_of_practice"
+                                <x-label for="duration_of_practice" value="Duration of Practice (Start Date)" />
+                                <x-input id="duration_of_practice" type="date" name="duration_of_practice"
                                     class="mt-1 block w-full"
                                     :value="old('duration_of_practice', $advocate->duration_of_practice)" />
                             </div>
@@ -138,6 +141,14 @@
                             <x-input id="voter_member_of_bar_association" type="text"
                                 name="voter_member_of_bar_association" class="mt-1 block w-full"
                                 :value="old('voter_member_of_bar_association', $advocate->voter_member_of_bar_association)" />
+                        </div>
+
+                        <div class="mt-4">
+                            <x-label for="permanent_member_of_bar_association"
+                                value="Permanent Member of Bar Association" />
+                            <x-input id="permanent_member_of_bar_association" type="text"
+                                name="permanent_member_of_bar_association" class="mt-1 block w-full"
+                                :value="old('permanent_member_of_bar_association', $advocate->permanent_member_of_bar_association)" />
                         </div>
 
                         <div class="flex items-center justify-end mt-6">

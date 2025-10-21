@@ -149,6 +149,13 @@
                                     {{ $advocate->voter_member_of_bar_association ?? 'N/A' }}
                                 </p>
                             </div>
+
+                            <div>
+                                <h4 class="text-sm font-medium text-gray-500 dark:text-gray-400">Permanent Member</h4>
+                                <p class="mt-1 text-lg text-gray-900 dark:text-gray-100">
+                                    {{ $advocate->permanent_member_of_bar_association ?? 'N/A' }}
+                                </p>
+                            </div>
                         </div>
                     </div>
 

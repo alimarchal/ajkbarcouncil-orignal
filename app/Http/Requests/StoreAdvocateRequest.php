@@ -25,11 +25,11 @@ class StoreAdvocateRequest extends FormRequest
             'father_husband_name' => 'required|string|max:255',
             'complete_address' => 'required|string',
             'visitor_member_of_bar_association' => 'nullable|string|max:255',
-            'lower_courts' => 'nullable|date',
-            'high_court' => 'nullable|date',
-            'supreme_court' => 'nullable|date',
+            'date_of_enrolment_lower_courts' => 'nullable|date',
+            'date_of_enrolment_high_court' => 'nullable|date',
+            'date_of_enrolment_supreme_court' => 'nullable|date',
             'voter_member_of_bar_association' => 'nullable|string|max:255',
-            'duration_of_practice' => 'nullable|integer|min:0',
+            'duration_of_practice' => 'nullable|date',
             'mobile_no' => 'required|string|max:20',
             'email_address' => 'required|email|unique:advocates,email_address',
             'is_active' => 'required|boolean',
@@ -52,29 +52,5 @@ class StoreAdvocateRequest extends FormRequest
             'email_address.unique' => 'This email address is already registered',
             'is_active.required' => 'Status is required',
         ];
-    }
-
-    /**
-     * Get the validated data and map field names
-     */
-    public function validated($key = null, $default = null)
-    {
-        $data = parent::validated($key, $default);
-
-        // Map form field names to database column names
-        if (isset($data['lower_courts'])) {
-            $data['date_of_enrolment_lower_courts'] = $data['lower_courts'];
-            unset($data['lower_courts']);
-        }
-        if (isset($data['high_court'])) {
-            $data['date_of_enrolment_high_court'] = $data['high_court'];
-            unset($data['high_court']);
-        }
-        if (isset($data['supreme_court'])) {
-            $data['date_of_enrolment_supreme_court'] = $data['supreme_court'];
-            unset($data['supreme_court']);
-        }
-
-        return $data;
     }
 }
