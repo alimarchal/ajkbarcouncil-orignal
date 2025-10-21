@@ -46,4 +46,38 @@ class Advocate extends Model
     {
         return $this->belongsTo(BarAssociation::class);
     }
+
+    /**
+     * Calculate detailed age difference from a date to now
+     * Returns format: "X years, Y months, Z days"
+     */
+    public function getDetailedAgeDifference($date)
+    {
+        if (!$date) {
+            return '';
+        }
+
+        $now = now();
+        $interval = $date->diff($now);
+
+        $parts = [];
+
+        if ($interval->y > 0) {
+            $parts[] = $interval->y . ' year' . ($interval->y > 1 ? 's' : '');
+        }
+
+        if ($interval->m > 0) {
+            $parts[] = $interval->m . ' month' . ($interval->m > 1 ? 's' : '');
+        }
+
+        if ($interval->d > 0) {
+            $parts[] = $interval->d . ' day' . ($interval->d > 1 ? 's' : '');
+        }
+
+        if ($interval->h > 0) {
+            $parts[] = $interval->h . ' hour' . ($interval->h > 1 ? 's' : '');
+        }
+
+        return implode(', ', $parts);
+    }
 }

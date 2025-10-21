@@ -56,7 +56,7 @@
                     <table class="w-full">
                         <tbody>
                             <tr class="hidden print:table-row print-header-row">
-                                <td colspan="2" class="p-4 text-center border border-black">
+                                <td colspan="2" class="p-4 text-left border border-black">
                                     <div class="print-header-title">Advocate Information Record</div>
                                     <div>
                                         <strong>Name:</strong> {{ $advocate->name }} |
@@ -67,88 +67,120 @@
                             </tr>
                             <tr
                                 class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 print:hover:bg-white">
-                                <td class="px-2 py-2 border border-black text-center font-semibold">Name of Advocate
+                                <td class="px-2 py-2 border border-black text-left font-semibold">Name of Advocate
                                 </td>
-                                <td class="px-2 py-2 border border-black text-center">{{ $advocate->name }}</td>
+                                <td class="px-2 py-2 border border-black text-left">{{ $advocate->name }}</td>
                             </tr>
                             <tr
                                 class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 print:hover:bg-white">
-                                <td class="px-2 py-2 border border-black text-center font-semibold">Father's Name</td>
-                                <td class="px-2 py-2 border border-black text-center">{{ $advocate->father_husband_name
+                                <td class="px-2 py-2 border border-black text-left font-semibold">Father's Name</td>
+                                <td class="px-2 py-2 border border-black text-left">{{ $advocate->father_husband_name
                                     }}</td>
                             </tr>
                             <tr
                                 class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 print:hover:bg-white">
-                                <td class="px-2 py-2 border border-black text-center font-semibold">Complete Address
+                                <td class="px-2 py-2 border border-black text-left font-semibold">Complete Address
                                 </td>
-                                <td class="px-2 py-2 border border-black text-center">{{ $advocate->complete_address }}
+                                <td class="px-2 py-2 border border-black text-left">{{ $advocate->complete_address }}
                                 </td>
                             </tr>
                             <tr
                                 class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 print:hover:bg-white">
-                                <td class="px-2 py-2 border border-black text-center font-semibold">Permanent Member of
+                                <td class="px-2 py-2 border border-black text-left font-semibold">Permanent Member of
                                     Bar Association</td>
-                                <td class="px-2 py-2 border border-black text-center">{{
+                                <td class="px-2 py-2 border border-black text-left">{{
                                     $advocate->permanent_member_of_bar_association ?? $advocate->barAssociation->name }}
                                 </td>
                             </tr>
                             <tr
                                 class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 print:hover:bg-white">
-                                <td class="px-2 py-2 border border-black text-center font-semibold">Visitor Member of
+                                <td class="px-2 py-2 border border-black text-left font-semibold">Visitor Member of
                                     Bar Association</td>
-                                <td class="px-2 py-2 border border-black text-center">{{
+                                <td class="px-2 py-2 border border-black text-left">{{
                                     $advocate->visitor_member_of_bar_association ?? 'Nil' }}</td>
                             </tr>
                             <tr
                                 class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 print:hover:bg-white">
-                                <td class="px-2 py-2 border border-black text-center font-semibold">Date of Enrolment
+                                <td class="px-2 py-2 border border-black text-left font-semibold">Date of Enrolment
                                     Lower Courts</td>
-                                <td class="px-2 py-2 border border-black text-center">{{
-                                    $advocate->date_of_enrolment_lower_courts?->format('d-m-Y') ?? 'N/A' }}</td>
+                                <td class="px-2 py-2 border border-black text-left">
+                                    @if($advocate->date_of_enrolment_lower_courts)
+                                    {{ $advocate->date_of_enrolment_lower_courts->format('d-m-Y') }}
+                                    <span class="text-xs text-gray-600">({{
+                                        $advocate->getDetailedAgeDifference($advocate->date_of_enrolment_lower_courts)
+                                        }})</span>
+                                    @else
+                                    N/A
+                                    @endif
+                                </td>
                             </tr>
                             <tr
                                 class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 print:hover:bg-white">
-                                <td class="px-2 py-2 border border-black text-center font-semibold">Date of Enrolment
+                                <td class="px-2 py-2 border border-black text-left font-semibold">Date of Enrolment
                                     High Court</td>
-                                <td class="px-2 py-2 border border-black text-center">{{
-                                    $advocate->date_of_enrolment_high_court?->format('d-m-Y') ?? 'N/A' }}</td>
+                                <td class="px-2 py-2 border border-black text-left">
+                                    @if($advocate->date_of_enrolment_high_court)
+                                    {{ $advocate->date_of_enrolment_high_court->format('d-m-Y') }}
+                                    <span class="text-xs text-gray-600">({{
+                                        $advocate->getDetailedAgeDifference($advocate->date_of_enrolment_high_court)
+                                        }})</span>
+                                    @else
+                                    N/A
+                                    @endif
+                                </td>
                             </tr>
                             <tr
                                 class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 print:hover:bg-white">
-                                <td class="px-2 py-2 border border-black text-center font-semibold">Date of Enrolment
+                                <td class="px-2 py-2 border border-black text-left font-semibold">Date of Enrolment
                                     Supreme Court</td>
-                                <td class="px-2 py-2 border border-black text-center">{{
-                                    $advocate->date_of_enrolment_supreme_court?->format('d-m-Y') ?? 'N/A' }}</td>
+                                <td class="px-2 py-2 border border-black text-left">
+                                    @if($advocate->date_of_enrolment_supreme_court)
+                                    {{ $advocate->date_of_enrolment_supreme_court->format('d-m-Y') }}
+                                    <span class="text-xs text-gray-600">({{
+                                        $advocate->getDetailedAgeDifference($advocate->date_of_enrolment_supreme_court)
+                                        }})</span>
+                                    @else
+                                    N/A
+                                    @endif
+                                </td>
                             </tr>
                             <tr
                                 class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 print:hover:bg-white">
-                                <td class="px-2 py-2 border border-black text-center font-semibold">Voter Member of Bar
+                                <td class="px-2 py-2 border border-black text-left font-semibold">Voter Member of Bar
                                     Association</td>
-                                <td class="px-2 py-2 border border-black text-center">{{
+                                <td class="px-2 py-2 border border-black text-left">{{
                                     $advocate->voter_member_of_bar_association ?? 'N/A' }}</td>
                             </tr>
                             <tr
                                 class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 print:hover:bg-white">
-                                <td class="px-2 py-2 border border-black text-center font-semibold">Duration of Practice
+                                <td class="px-2 py-2 border border-black text-left font-semibold">Duration of Practice
                                 </td>
-                                <td class="px-2 py-2 border border-black text-center">{{ $advocate->duration_of_practice
-                                    ? 'Since ' . $advocate->duration_of_practice->format('Y') : 'N/A' }}</td>
+                                <td class="px-2 py-2 border border-black text-left">
+                                    @if($advocate->duration_of_practice)
+                                    {{ $advocate->duration_of_practice->format('d-m-Y') }}
+                                    <span class="text-xs text-gray-600">({{
+                                        $advocate->getDetailedAgeDifference($advocate->duration_of_practice)
+                                        }})</span>
+                                    @else
+                                    N/A
+                                    @endif
+                                </td>
                             </tr>
                             <tr
                                 class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 print:hover:bg-white">
-                                <td class="px-2 py-2 border border-black text-center font-semibold">Mobile No</td>
-                                <td class="px-2 py-2 border border-black text-center">{{ $advocate->mobile_no }}</td>
+                                <td class="px-2 py-2 border border-black text-left font-semibold">Mobile No</td>
+                                <td class="px-2 py-2 border border-black text-left">{{ $advocate->mobile_no }}</td>
                             </tr>
                             <tr
                                 class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 print:hover:bg-white">
-                                <td class="px-2 py-2 border border-black text-center font-semibold">Email Address</td>
-                                <td class="px-2 py-2 border border-black text-center">{{ $advocate->email_address ??
+                                <td class="px-2 py-2 border border-black text-left font-semibold">Email Address</td>
+                                <td class="px-2 py-2 border border-black text-left">{{ $advocate->email_address ??
                                     'Nil' }}</td>
                             </tr>
                             <tr
                                 class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 print:hover:bg-white">
-                                <td class="px-2 py-2 border border-black text-center font-semibold">Status</td>
-                                <td class="px-2 py-2 border border-black text-center">
+                                <td class="px-2 py-2 border border-black text-left font-semibold">Status</td>
+                                <td class="px-2 py-2 border border-black text-left">
                                     <span
                                         class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium {{ $advocate->is_active ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
                                         {{ $advocate->is_active ? 'Active' : 'Inactive' }}
@@ -217,7 +249,7 @@
                             td {
                                 padding: 4px 6px !important;
                                 font-size: 11px !important;
-                                text-align: center !important;
+                                text-align: left !important;
                             }
 
                             table {
