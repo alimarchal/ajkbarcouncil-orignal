@@ -38,7 +38,7 @@
             style="display: none">
             <div class="p-6">
                 <form method="GET" action="{{ route('bar-associations.index') }}">
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                         <!-- Name Search -->
                         <div>
                             <x-input-filters name="name" label="Name" type="text" />
@@ -57,12 +57,12 @@
                             </select>
                         </div>
 
-                        <!-- Date Range -->
-                        <div></div>
+                        <!-- Date From -->
                         <div>
                             <x-date-from />
                         </div>
 
+                        <!-- Date To -->
                         <div>
                             <x-date-to />
                         </div>
