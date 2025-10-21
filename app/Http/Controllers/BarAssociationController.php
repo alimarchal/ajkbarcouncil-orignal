@@ -41,6 +41,11 @@ class BarAssociationController extends Controller
                 }),
                 AllowedFilter::callback('date_to', function ($query, $value) {
                     $query->whereDate('created_at', '<=', $value);
+                }),
+                AllowedFilter::callback('show_deleted', function ($query, $value) {
+                    if ($value == 1) {
+                        $query->onlyTrashed();  // Show only deleted records
+                    }
                 })
             ])
             ->allowedSorts([
@@ -274,6 +279,41 @@ class BarAssociationController extends Controller
 
             return redirect()->back()
                 ->with('error', 'Failed to delete bar association. Please try again.');
+        }
+    }
+
+    /**
+     * Restore a soft-deleted bar association
+     * 
+     * @param string $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function restore($id)
+    {
+        DB::beginTransaction();
+
+        try {
+            $barAssociation = BarAssociation::withTrashed()->findOrFail($id);
+            $name = $barAssociation->name;
+            $barAssociation->restore();
+
+            DB::commit();
+
+            return redirect()
+                ->route('bar-associations.index')
+                ->with('success', "Bar Association '{$name}' restored successfully.");
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+
+            Log::error('Error restoring bar association', [
+                'bar_association_id' => $id,
+                'error' => $e->getMessage(),
+                'user_id' => auth()->id()
+            ]);
+
+            return redirect()->back()
+                ->with('error', 'Failed to restore bar association. Please try again.');
         }
     }
 }

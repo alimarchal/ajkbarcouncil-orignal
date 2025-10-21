@@ -45,27 +45,12 @@
                         </div>
 
                         <!-- Status Filter -->
-                        <div>
-                            <x-label for="filter_is_active" value="Status" />
-                            <select id="filter_is_active" name="filter[is_active]"
-                                class="mt-1 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm">
-                                <option value="">All Status</option>
-                                <option value="1" {{ request()->query('filter.is_active', 1) == 1 ? 'selected' : ''
-                                    }}>Active</option>
-                                <option value="0" {{ request()->query('filter.is_active') == 0 ? 'selected' : ''
-                                    }}>Inactive</option>
-                            </select>
-                        </div>
+                        <x-select-filter label="Status" name="status" filterKey="is_active"
+                            :options="['1' => 'Active', '0' => 'Inactive']" placeholder="All Status" />
 
-                        <!-- Date From -->
-                        <div>
-                            <x-date-from />
-                        </div>
-
-                        <!-- Date To -->
-                        <div>
-                            <x-date-to />
-                        </div>
+                        <!-- Show Deleted Filter -->
+                        <x-select-filter label="Show Deleted" name="deleted" filterKey="show_deleted"
+                            :options="['1' => 'Deleted Only', '0' => 'Active Only']" placeholder="Active Records" />
                     </div>
 
                     <!-- Submit Button -->
@@ -85,17 +70,18 @@
                 <table class="min-w-max w-full table-auto text-sm">
                     <thead>
                         <tr class="bg-green-800 text-white uppercase text-sm">
+                            <th class="py-2 px-2 text-center">#</th>
                             <th class="py-2 px-2 text-left">Name</th>
                             <th class="py-2 px-2 text-center">Status</th>
-                            <th class="py-2 px-2 text-left">Created By</th>
-                            <th class="py-2 px-2 text-left">Updated By</th>
-                            <th class="py-2 px-2 text-left">Date</th>
                             <th class="py-2 px-2 text-center print:hidden">Actions</th>
                         </tr>
                     </thead>
                     <tbody class="text-black text-md leading-normal font-extrabold">
-                        @foreach ($barAssociations as $barAssociation)
+                        @foreach ($barAssociations as $key => $barAssociation)
                         <tr class="border-b border-gray-200 hover:bg-gray-100">
+                            <td class="py-1 px-2 text-center text-gray-600 dark:text-gray-400">
+                                {{ $key + 1 }}
+                            </td>
                             <td class="py-1 px-2 text-left">
                                 <a href="{{ route('bar-associations.show', $barAssociation) }}"
                                     class="text-blue-600 hover:underline">
@@ -108,21 +94,32 @@
                                     {{ $barAssociation->is_active ? 'Active' : 'Inactive' }}
                                 </span>
                             </td>
-                            <td class="py-1 px-2 text-left">
-                                {{ $barAssociation->createdByUser?->name ?? 'N/A' }}
-                            </td>
-                            <td class="py-1 px-2 text-left">
-                                {{ $barAssociation->updatedByUser?->name ?? 'N/A' }}
-                            </td>
-                            <td class="py-1 px-2 text-left">
-                                {{ $barAssociation->created_at->format('d-m-Y') }}
-                            </td>
                             <td class="py-1 px-2 text-center">
                                 <div class="flex justify-center space-x-2">
+                                    @if ($barAssociation->trashed())
+                                    <!-- Restore Button for Deleted Records -->
+                                    <form action="{{ route('bar-associations.restore', $barAssociation->id) }}"
+                                        method="POST" class="inline"
+                                        onsubmit="return confirm('Are you sure you want to restore this bar association?');">
+                                        @csrf
+                                        @method('PATCH')
+                                        <button type="submit"
+                                            class="inline-flex items-center px-3 py-1 bg-green-600 text-white rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 text-xs font-medium">
+                                            <svg class="w-4 h-4 mr-1" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M9 15L3 9m0 0l6-6m-6 6h18a9 9 0 010 18H9" />
+                                            </svg>
+                                            Restore
+                                        </button>
+                                    </form>
+                                    @else
+                                    <!-- Edit Button for Active Records -->
                                     <a href="{{ route('bar-associations.edit', $barAssociation) }}"
                                         class="inline-flex items-center px-3 py-1 bg-blue-800 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 text-xs font-medium">
                                         Edit
                                     </a>
+                                    @endif
                                 </div>
                             </td>
                         </tr>

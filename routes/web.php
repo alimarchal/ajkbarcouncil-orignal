@@ -18,4 +18,5 @@ Route::middleware([
 
     // Bar Association Routes
     Route::resource('bar-associations', BarAssociationController::class);
+    Route::patch('bar-associations/{id}/restore', [BarAssociationController::class, 'restore'])->name('bar-associations.restore');
 });
