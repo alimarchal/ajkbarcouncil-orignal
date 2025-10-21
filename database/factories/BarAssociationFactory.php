@@ -17,7 +17,10 @@ class BarAssociationFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'name' => $this->faker->unique()->company(),
+            'is_active' => true,
+            'created_by' => 1,
+            'updated_by' => 1,
         ];
     }
 }

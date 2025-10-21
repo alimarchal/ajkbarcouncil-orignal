@@ -207,7 +207,7 @@ class BarAssociationController extends Controller
             DB::commit();
 
             return redirect()
-                ->route('bar-associations.show', $barAssociation)
+                ->route('bar-associations.index')
                 ->with('success', "Bar Association '{$barAssociation->name}' updated successfully.");
 
         } catch (\Illuminate\Database\QueryException $e) {
