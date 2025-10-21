@@ -3,7 +3,7 @@
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight inline-block">
             {{ $advocate->name }}
         </h2>
-        <div class="flex justify-center items-center float-right gap-2">
+        <div class="flex justify-center items-center float-right gap-2 screen-only">
             <a href="{{ route('advocates.edit', $advocate) }}"
                 class="inline-flex items-center px-4 py-2 bg-yellow-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-yellow-700 focus:bg-yellow-700 active:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150">
                 <svg class="w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -13,20 +13,15 @@
                 </svg>
                 Edit
             </a>
-            <form action="{{ route('advocates.destroy', $advocate) }}" method="POST" class="inline"
-                onsubmit="return confirm('Are you sure you want to delete this advocate?');">
-                @csrf
-                @method('DELETE')
-                <button type="submit"
-                    class="inline-flex items-center px-4 py-2 bg-red-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-red-700 focus:bg-red-700 active:bg-red-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150">
-                    <svg class="w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                        stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                    </svg>
-                    Delete
-                </button>
-            </form>
+            <button onclick="window.print()"
+                class="inline-flex items-center px-4 py-2 bg-green-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-green-700 focus:bg-green-700 active:bg-green-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                    stroke="currentColor" class="w-4 h-4 mr-2">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M6.72 13.829c-.24.03-.48.062-.72.096m.72-.096a42.415 42.415 0 0110.56 0m-10.56 0L6.34 18m10.94-4.171c.24.03.48.062.72.096m-.72-.096L17.66 18m0 0l.229 2.523a1.125 1.125 0 01-1.12 1.227H7.231a1.125 1.125 0 01-1.12-1.227L6.34 18m11.318 0h1.091A2.25 2.25 0 0021 15.75V9.456c0-1.081-.768-2.015-1.837-2.175a48.055 48.055 0 00-1.913-.247M6.34 18H5.25A2.25 2.25 0 013 15.75V9.456c0-1.081.768-2.015 1.837-2.175a48.041 48.041 0 011.913-.247m10.5 0a48.536 48.536 0 00-10.5 0m10.5 0V3.375c0-.621-.504-1.125-1.125-1.125h-8.25c-.621 0-1.125.504-1.125 1.125v3.659M18 10.5h.008v.008H18V10.5zm-3 0h.008v.008H15V10.5z" />
+                </svg>
+                Print
+            </button>
             <a href="{{ route('advocates.index') }}"
                 class="inline-flex items-center ml-2 px-4 py-2 bg-blue-950 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-green-800 focus:bg-green-800 active:bg-green-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150">
                 <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -39,159 +34,239 @@
     </x-slot>
 
     <div class="py-6">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
             <x-status-message />
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-xl sm:rounded-lg">
-                <div class="p-6">
-                    <!-- Basic Information -->
-                    <div class="mb-6">
-                        <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Basic Information</h3>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div>
-                                <h4 class="text-sm font-medium text-gray-500 dark:text-gray-400">Name</h4>
-                                <p class="mt-1 text-lg text-gray-900 dark:text-gray-100">{{ $advocate->name }}</p>
-                            </div>
-
-                            <div>
-                                <h4 class="text-sm font-medium text-gray-500 dark:text-gray-400">Father/Husband Name
-                                </h4>
-                                <p class="mt-1 text-lg text-gray-900 dark:text-gray-100">{{
-                                    $advocate->father_husband_name }}</p>
-                            </div>
-
-                            <div>
-                                <h4 class="text-sm font-medium text-gray-500 dark:text-gray-400">Email Address</h4>
-                                <p class="mt-1 text-lg text-blue-600 dark:text-blue-400">{{ $advocate->email_address }}
-                                </p>
-                            </div>
-
-                            <div>
-                                <h4 class="text-sm font-medium text-gray-500 dark:text-gray-400">Mobile Number</h4>
-                                <p class="mt-1 text-lg text-gray-900 dark:text-gray-100">{{ $advocate->mobile_no }}</p>
-                            </div>
-
-                            <div class="md:col-span-2">
-                                <h4 class="text-sm font-medium text-gray-500 dark:text-gray-400">Complete Address</h4>
-                                <p class="mt-1 text-lg text-gray-900 dark:text-gray-100">{{ $advocate->complete_address
+                <div class="p-8">
+                    <!-- Header with Logo and Title -->
+                    <div class="flex items-center justify-center mb-8 pb-8 border-b-2 border-gray-300">
+                        <div class="flex items-center justify-center gap-4">
+                            <img src="{{ asset('icons-images/logo.jpg') }}" alt="Bar Council Logo" class="h-24 w-24">
+                            <div class="text-center">
+                                <h1 class="text-3xl font-bold text-gray-900">Portal Azad Jammu & Kashmir Bar Council
+                                </h1>
+                                <p class="text-xl font-semibold text-gray-700 mt-2">{{ $advocate->barAssociation->name
                                     }}</p>
                             </div>
+                        </div>
+                    </div>
 
-                            <div>
-                                <h4 class="text-sm font-medium text-gray-500 dark:text-gray-400">Bar Association</h4>
-                                <p class="mt-1 text-lg text-gray-900 dark:text-gray-100">{{
-                                    $advocate->barAssociation->name }}</p>
-                            </div>
-
-                            <div>
-                                <h4 class="text-sm font-medium text-gray-500 dark:text-gray-400">Status</h4>
-                                <p class="mt-1">
+                    <!-- Advocate Information Table -->
+                    <!-- Advocate Information Table -->
+                    <table class="w-full">
+                        <tbody>
+                            <tr class="hidden print:table-row print-header-row">
+                                <td colspan="2" class="p-4 text-center border border-black">
+                                    <div class="print-header-title">Advocate Information Record</div>
+                                    <div>
+                                        <strong>Name:</strong> {{ $advocate->name }} |
+                                        <strong>Bar Association:</strong> {{ $advocate->barAssociation->name }} |
+                                        <strong>Generated:</strong> {{ now()->format('d M, Y') }}
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr
+                                class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 print:hover:bg-white">
+                                <td class="px-2 py-2 border border-black text-center font-semibold">Name of Advocate
+                                </td>
+                                <td class="px-2 py-2 border border-black text-center">{{ $advocate->name }}</td>
+                            </tr>
+                            <tr
+                                class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 print:hover:bg-white">
+                                <td class="px-2 py-2 border border-black text-center font-semibold">Father's Name</td>
+                                <td class="px-2 py-2 border border-black text-center">{{ $advocate->father_husband_name
+                                    }}</td>
+                            </tr>
+                            <tr
+                                class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 print:hover:bg-white">
+                                <td class="px-2 py-2 border border-black text-center font-semibold">Complete Address
+                                </td>
+                                <td class="px-2 py-2 border border-black text-center">{{ $advocate->complete_address }}
+                                </td>
+                            </tr>
+                            <tr
+                                class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 print:hover:bg-white">
+                                <td class="px-2 py-2 border border-black text-center font-semibold">Permanent Member of
+                                    Bar Association</td>
+                                <td class="px-2 py-2 border border-black text-center">{{
+                                    $advocate->permanent_member_of_bar_association ?? $advocate->barAssociation->name }}
+                                </td>
+                            </tr>
+                            <tr
+                                class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 print:hover:bg-white">
+                                <td class="px-2 py-2 border border-black text-center font-semibold">Visitor Member of
+                                    Bar Association</td>
+                                <td class="px-2 py-2 border border-black text-center">{{
+                                    $advocate->visitor_member_of_bar_association ?? 'Nil' }}</td>
+                            </tr>
+                            <tr
+                                class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 print:hover:bg-white">
+                                <td class="px-2 py-2 border border-black text-center font-semibold">Date of Enrolment
+                                    Lower Courts</td>
+                                <td class="px-2 py-2 border border-black text-center">{{
+                                    $advocate->date_of_enrolment_lower_courts?->format('d-m-Y') ?? 'N/A' }}</td>
+                            </tr>
+                            <tr
+                                class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 print:hover:bg-white">
+                                <td class="px-2 py-2 border border-black text-center font-semibold">Date of Enrolment
+                                    High Court</td>
+                                <td class="px-2 py-2 border border-black text-center">{{
+                                    $advocate->date_of_enrolment_high_court?->format('d-m-Y') ?? 'N/A' }}</td>
+                            </tr>
+                            <tr
+                                class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 print:hover:bg-white">
+                                <td class="px-2 py-2 border border-black text-center font-semibold">Date of Enrolment
+                                    Supreme Court</td>
+                                <td class="px-2 py-2 border border-black text-center">{{
+                                    $advocate->date_of_enrolment_supreme_court?->format('d-m-Y') ?? 'N/A' }}</td>
+                            </tr>
+                            <tr
+                                class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 print:hover:bg-white">
+                                <td class="px-2 py-2 border border-black text-center font-semibold">Voter Member of Bar
+                                    Association</td>
+                                <td class="px-2 py-2 border border-black text-center">{{
+                                    $advocate->voter_member_of_bar_association ?? 'N/A' }}</td>
+                            </tr>
+                            <tr
+                                class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 print:hover:bg-white">
+                                <td class="px-2 py-2 border border-black text-center font-semibold">Duration of Practice
+                                </td>
+                                <td class="px-2 py-2 border border-black text-center">{{ $advocate->duration_of_practice
+                                    ? 'Since ' . $advocate->duration_of_practice->format('Y') : 'N/A' }}</td>
+                            </tr>
+                            <tr
+                                class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 print:hover:bg-white">
+                                <td class="px-2 py-2 border border-black text-center font-semibold">Mobile No</td>
+                                <td class="px-2 py-2 border border-black text-center">{{ $advocate->mobile_no }}</td>
+                            </tr>
+                            <tr
+                                class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 print:hover:bg-white">
+                                <td class="px-2 py-2 border border-black text-center font-semibold">Email Address</td>
+                                <td class="px-2 py-2 border border-black text-center">{{ $advocate->email_address ??
+                                    'Nil' }}</td>
+                            </tr>
+                            <tr
+                                class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 print:hover:bg-white">
+                                <td class="px-2 py-2 border border-black text-center font-semibold">Status</td>
+                                <td class="px-2 py-2 border border-black text-center">
                                     <span
-                                        class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium {{ $advocate->is_active ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300' : 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300' }}">
+                                        class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium {{ $advocate->is_active ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
                                         {{ $advocate->is_active ? 'Active' : 'Inactive' }}
                                     </span>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
 
-                    <!-- Enrolment Information -->
-                    <div class="mb-6 pt-6 border-t border-gray-200 dark:border-gray-700">
-                        <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Enrolment Information
-                        </h3>
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                            <div>
-                                <h4 class="text-sm font-medium text-gray-500 dark:text-gray-400">Lower Courts</h4>
-                                <p class="mt-1 text-lg text-gray-900 dark:text-gray-100">
-                                    {{ $advocate->date_of_enrolment_lower_courts?->format('d M, Y') ?? 'N/A' }}
-                                </p>
-                            </div>
+                    <!-- Print Styles -->
+                    <style>
+                        /* Global table styles - screen and print */
+                        table,
+                        th,
+                        td {
+                            border: 1px solid #000 !important;
+                            border-collapse: collapse;
+                        }
 
-                            <div>
-                                <h4 class="text-sm font-medium text-gray-500 dark:text-gray-400">High Court</h4>
-                                <p class="mt-1 text-lg text-gray-900 dark:text-gray-100">
-                                    {{ $advocate->date_of_enrolment_high_court?->format('d M, Y') ?? 'N/A' }}
-                                </p>
-                            </div>
+                        table {
+                            width: 100%;
+                        }
 
-                            <div>
-                                <h4 class="text-sm font-medium text-gray-500 dark:text-gray-400">Supreme Court</h4>
-                                <p class="mt-1 text-lg text-gray-900 dark:text-gray-100">
-                                    {{ $advocate->date_of_enrolment_supreme_court?->format('d M, Y') ?? 'N/A' }}
-                                </p>
-                            </div>
-                        </div>
-                    </div>
+                        td {
+                            padding: 8px !important;
+                            text-align: left !important;
+                            font-size: 14px;
+                        }
 
-                    <!-- Additional Information -->
-                    <div class="mb-6 pt-6 border-t border-gray-200 dark:border-gray-700">
-                        <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Additional Information
-                        </h3>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div>
-                                <h4 class="text-sm font-medium text-gray-500 dark:text-gray-400">Duration of Practice
-                                </h4>
-                                <p class="mt-1 text-lg text-gray-900 dark:text-gray-100">
-                                    {{ $advocate->duration_of_practice ? $advocate->duration_of_practice . ' years' :
-                                    'N/A' }}
-                                </p>
-                            </div>
+                        /* Hover effect for screen */
+                        table tr:hover td {
+                            background-color: #f3f4f6;
+                        }
 
-                            <div>
-                                <h4 class="text-sm font-medium text-gray-500 dark:text-gray-400">Visitor Member</h4>
-                                <p class="mt-1 text-lg text-gray-900 dark:text-gray-100">
-                                    {{ $advocate->visitor_member_of_bar_association ?? 'N/A' }}
-                                </p>
-                            </div>
+                        /* Header row styling */
+                        .print-header-row {
+                            background-color: #f0f0f0;
+                        }
 
-                            <div>
-                                <h4 class="text-sm font-medium text-gray-500 dark:text-gray-400">Voter Member</h4>
-                                <p class="mt-1 text-lg text-gray-900 dark:text-gray-100">
-                                    {{ $advocate->voter_member_of_bar_association ?? 'N/A' }}
-                                </p>
-                            </div>
+                        .print-header-row td {
+                            padding: 12px !important;
+                            font-size: 14px !important;
+                            text-align: center !important;
+                        }
 
-                            <div>
-                                <h4 class="text-sm font-medium text-gray-500 dark:text-gray-400">Permanent Member</h4>
-                                <p class="mt-1 text-lg text-gray-900 dark:text-gray-100">
-                                    {{ $advocate->permanent_member_of_bar_association ?? 'N/A' }}
-                                </p>
-                            </div>
-                        </div>
-                    </div>
+                        .print-header-title {
+                            font-size: 18px;
+                            font-weight: bold;
+                            margin-bottom: 8px;
+                        }
 
-                    <!-- Audit Information -->
-                    <div class="pt-6 border-t border-gray-200 dark:border-gray-700">
-                        <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Audit Information</h3>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div>
-                                <h4 class="text-sm font-medium text-gray-500 dark:text-gray-400">Created By</h4>
-                                <p class="mt-1 text-lg text-gray-900 dark:text-gray-100">
-                                    {{ $advocate->createdByUser?->name ?? 'N/A' }}
-                                </p>
-                            </div>
+                        @media print {
+                            body {
+                                margin: 0;
+                                padding: 0;
+                            }
 
-                            <div>
-                                <h4 class="text-sm font-medium text-gray-500 dark:text-gray-400">Updated By</h4>
-                                <p class="mt-1 text-lg text-gray-900 dark:text-gray-100">
-                                    {{ $advocate->updatedByUser?->name ?? 'N/A' }}
-                                </p>
-                            </div>
+                            table,
+                            th,
+                            td {
+                                border: 1px solid #000 !important;
+                                border-collapse: collapse;
+                            }
 
-                            <div>
-                                <h4 class="text-sm font-medium text-gray-500 dark:text-gray-400">Created At</h4>
-                                <p class="mt-1 text-lg text-gray-900 dark:text-gray-100">
-                                    {{ $advocate->created_at->format('d M, Y H:i') }}
-                                </p>
-                            </div>
+                            th,
+                            td {
+                                padding: 4px 6px !important;
+                                font-size: 11px !important;
+                                text-align: center !important;
+                            }
 
-                            <div>
-                                <h4 class="text-sm font-medium text-gray-500 dark:text-gray-400">Updated At</h4>
-                                <p class="mt-1 text-lg text-gray-900 dark:text-gray-100">
-                                    {{ $advocate->updated_at->format('d M, Y H:i') }}
-                                </p>
-                            </div>
-                        </div>
-                    </div>
+                            table {
+                                width: 100%;
+                                page-break-inside: avoid;
+                            }
+
+                            .print-wrapper {
+                                padding: 0.5cm;
+                            }
+
+                            tr:nth-child(even) {
+                                background-color: #f8f8f8 !important;
+                                -webkit-print-color-adjust: exact;
+                                print-color-adjust: exact;
+                            }
+
+                            .print-header-row {
+                                display: table-row !important;
+                                background-color: #f0f0f0 !important;
+                                -webkit-print-color-adjust: exact;
+                                print-color-adjust: exact;
+                            }
+
+                            .print-header-row td {
+                                padding: 8px !important;
+                                font-size: 12px !important;
+                                text-align: center !important;
+                            }
+
+                            .print-header-title {
+                                font-size: 16px !important;
+                                font-weight: bold !important;
+                            }
+
+                            .screen-only {
+                                display: none !important;
+                            }
+
+                            img {
+                                print-color-adjust: exact;
+                                -webkit-print-color-adjust: exact;
+                            }
+
+                            @page {
+                                margin: 10mm;
+                            }
+                        }
+                    </style>
                 </div>
             </div>
         </div>
