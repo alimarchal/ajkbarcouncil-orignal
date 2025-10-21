@@ -30,7 +30,7 @@ class BarAssociationController extends Controller
     public function index(Request $request)
     {
         // Build query with filters using Spatie QueryBuilder
-        $barAssociations = QueryBuilder::for(BarAssociation::class)
+        $query = QueryBuilder::for(BarAssociation::class)
             ->allowedFilters([
                 AllowedFilter::partial('name'),                    // Search by name
                 AllowedFilter::exact('is_active'),                 // Filter by status
@@ -56,8 +56,14 @@ class BarAssociationController extends Controller
                 'updatedByUser' => function ($query) {
                     $query->select('id', 'name', 'email');
                 }
-            ])
-            ->latest()                                             // Order by newest first
+            ]);
+
+        // Apply default "Active" filter if no filters are set
+        if (!$request->has('filter')) {
+            $query->where('is_active', true);
+        }
+
+        $barAssociations = $query->latest()                        // Order by newest first
             ->paginate(10);                                        // Paginate results
 
         // Get filter options for dropdowns

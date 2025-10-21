@@ -41,9 +41,7 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                         <!-- Name Search -->
                         <div>
-                            <x-label for="filter_name" value="Name" />
-                            <x-input id="filter_name" type="text" name="filter[name]" class="mt-1 block w-full"
-                                :value="request()->query('filter.name')" placeholder="Search by name..." />
+                            <x-input-filters name="name" label="Name" type="text" />
                         </div>
 
                         <!-- Status Filter -->
@@ -52,55 +50,26 @@
                             <select id="filter_is_active" name="filter[is_active]"
                                 class="mt-1 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm">
                                 <option value="">All Status</option>
-                                @foreach ($statusOptions as $value => $label)
-                                <option value="{{ $value }}" {{ request()->query('filter.is_active') == $value ?
-                                    'selected' : '' }}>
-                                    {{ $label }}
-                                </option>
-                                @endforeach
+                                <option value="1" {{ request()->query('filter.is_active', 1) == 1 ? 'selected' : ''
+                                    }}>Active</option>
+                                <option value="0" {{ request()->query('filter.is_active') == 0 ? 'selected' : ''
+                                    }}>Inactive</option>
                             </select>
                         </div>
 
-                        <!-- Created By Filter -->
+                        <!-- Date Range -->
+                        <div></div>
                         <div>
-                            <x-label for="filter_created_by" value="Created By" />
-                            <select id="filter_created_by" name="filter[created_by]"
-                                class="mt-1 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm">
-                                <option value="">All Users</option>
-                                @foreach ($users as $user)
-                                <option value="{{ $user->id }}" {{ request()->query('filter.created_by') == $user->id ?
-                                    'selected' : '' }}>
-                                    {{ $user->name }}
-                                </option>
-                                @endforeach
-                            </select>
+                            <x-date-from />
                         </div>
 
-                        <!-- Date From -->
                         <div>
-                            <x-label for="filter_date_from" value="Date From" />
-                            <x-input id="filter_date_from" type="date" name="filter[date_from]"
-                                class="mt-1 block w-full" :value="request()->query('filter.date_from')" />
-                        </div>
-
-                        <!-- Date To -->
-                        <div>
-                            <x-label for="filter_date_to" value="Date To" />
-                            <x-input id="filter_date_to" type="date" name="filter[date_to]" class="mt-1 block w-full"
-                                :value="request()->query('filter.date_to')" />
+                            <x-date-to />
                         </div>
                     </div>
 
-                    <div class="flex items-center justify-end mt-4 gap-2">
-                        <a href="{{ route('bar-associations.index') }}"
-                            class="inline-flex items-center px-4 py-2 bg-gray-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150">
-                            Reset
-                        </a>
-                        <button type="submit"
-                            class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700 focus:bg-blue-700 active:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150">
-                            Search
-                        </button>
-                    </div>
+                    <!-- Submit Button -->
+                    <x-submit-button />
                 </form>
             </div>
         </div>
