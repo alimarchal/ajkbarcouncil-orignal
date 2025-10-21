@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BarAssociationController;
+use App\Http\Controllers\AdvocateController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -19,4 +20,8 @@ Route::middleware([
     // Bar Association Routes
     Route::resource('bar-associations', BarAssociationController::class);
     Route::patch('bar-associations/{id}/restore', [BarAssociationController::class, 'restore'])->name('bar-associations.restore');
+
+    // Advocate Routes
+    Route::resource('advocates', AdvocateController::class);
+    Route::patch('advocates/{id}/restore', [AdvocateController::class, 'restore'])->name('advocates.restore');
 });
