@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\BarAssociationController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -14,4 +15,7 @@ Route::middleware([
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
+
+    // Bar Association Routes
+    Route::resource('bar-associations', BarAssociationController::class);
 });
