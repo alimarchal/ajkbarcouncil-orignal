@@ -319,25 +319,47 @@
 
         .result-item {
             margin-bottom: 30px;
+            padding-bottom: 30px;
+            border-bottom: 1px solid #e8eaed;
+            position: relative;
+        }
+
+        .result-item::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: -180px;
+            right: -9999px;
+            height: 1px;
+            background-color: #e8eaed;
+        }
+
+        .result-item:last-child {
+            border-bottom: none;
+        }
+
+        .result-item:last-child::after {
+            display: none;
         }
 
         .result-url {
             display: flex;
             align-items: center;
-            font-size: 14px;
+            font-size: 16px;
             line-height: 1.3;
-            margin-bottom: 3px;
+            margin-bottom: 6px;
         }
 
         .result-url-text {
             color: #202124;
+            font-weight: 500;
         }
 
         .result-title {
-            font-size: 20px;
+            font-size: 24px;
             line-height: 1.3;
             font-weight: normal;
-            margin: 0 0 3px 0;
+            margin: 0 0 8px 0;
             padding: 0;
         }
 
@@ -345,6 +367,8 @@
             color: #1a0dab;
             text-decoration: none;
             cursor: pointer;
+            font-weight: 400;
+            font-size: 24px;
         }
 
         .result-title a:visited {
@@ -357,8 +381,8 @@
 
         .result-snippet {
             color: #4d5156;
-            font-size: 14px;
-            line-height: 1.58;
+            font-size: 16px;
+            line-height: 1.6;
             word-wrap: break-word;
         }
 
@@ -448,7 +472,7 @@
         }
 
         .logo {
-            height: 200px;
+            height: 150px;
             width: 200px;
             object-fit: contain;
         }
@@ -581,7 +605,7 @@
         <div style="padding: 20px 0;">
             <!-- Results Header with Search Box -->
             <form method="GET" action="{{ route('public.advocates.index') }}">
-                <div class="results-header" style="display: flex; align-items: center; gap: 32px; margin-bottom: 16px;">
+                <div class="results-header" style="display: flex; align-items: center; gap: 32px;">
                     <!-- Logo -->
                     <a href="{{ route('public.advocates.index') }}" style="flex-shrink: 0;">
                         <img src="{{ asset('icons-images/logo.jpg') }}" alt="Logo"
@@ -628,10 +652,10 @@
             <!-- Navigation Tabs -->
             <div class="nav-tabs">
                 <a href="#" class="nav-tab active">
-                    <svg focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                        <path fill="currentColor"
-                            d="M10 2v2a6 6 0 0 1 6 6h2a8 8 0 0 0-8-8zm0 4v2a2 2 0 0 1 2 2h2c0-2.21-1.79-4-4-4zm8.5 2c-.28 0-.5.22-.5.5v10c0 .28.22.5.5.5s.5-.22.5-.5v-10c0-.28-.22-.5-.5-.5zM12 8c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm0 6c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z">
-                        </path>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
                     </svg>
                     All
                 </a>
@@ -650,7 +674,8 @@
                 <div class="result-item">
                     <!-- URL/Bar Association -->
                     <div class="result-url">
-                        <span class="result-url-text">{{ $advocate->barAssociation->name ?? 'N/A' }}</span>
+                        <span class="result-url-text" style="color: #dc2626;">{{ $advocate->barAssociation->name ??
+                            'N/A' }}</span>
                         @if($advocate->permanent_member_of_bar_association)
                         <span style="color: #70757a; margin: 0 4px;">›</span>
                         <span style="color: #70757a;">{{ $advocate->permanent_member_of_bar_association }}</span>
@@ -659,8 +684,16 @@
 
                     <!-- Title/Name -->
                     <h3 class="result-title">
-                        <a href="{{ route('public.advocates.show', $advocate->id) }}">
-                            {{ $advocate->name }}
+                        <a href="{{ route('public.advocates.show', $advocate->id) }}"
+                            style="display: inline-flex; align-items: center; gap: 8px;">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                stroke="currentColor" style="width: 20px; height: 20px;">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                            </svg>
+                            <span>{{ $advocate->name }}</span>
                         </a>
                         <span class="badge {{ $advocate->is_active ? 'badge-active' : 'badge-inactive' }}">
                             {{ $advocate->is_active ? '✓ Active' : '✗ Inactive' }}
@@ -670,34 +703,44 @@
                     <!-- Snippet/Description -->
                     <div class="result-snippet">
                         @if($advocate->mobile_no || $advocate->email_address)
-                        <div style="margin-bottom: 4px;">
+                        <div style="margin-bottom: 8px; display: flex; gap: 20px; flex-wrap: wrap;">
                             @if($advocate->mobile_no)
-                            <span>📱 {{ $advocate->mobile_no }}</span>
-                            @endif
-                            @if($advocate->mobile_no && $advocate->email_address)
-                            <span style="margin: 0 8px;">•</span>
+                            <a href="tel:{{ $advocate->mobile_no }}"
+                                style="color: #1a0dab; text-decoration: none; display: inline-flex; align-items: center; gap: 6px;">
+                                <span>📱</span>
+                                <span><strong>Mobile:</strong> {{ $advocate->mobile_no }}</span>
+                            </a>
                             @endif
                             @if($advocate->email_address)
-                            <span>✉️ {{ $advocate->email_address }}</span>
+                            <a href="mailto:{{ $advocate->email_address }}"
+                                style="color: #1a0dab; text-decoration: none; display: inline-flex; align-items: center; gap: 6px;">
+                                <span>✉️</span>
+                                <span><strong>Email:</strong> {{ $advocate->email_address }}</span>
+                            </a>
                             @endif
                         </div>
                         @endif
 
                         @if($advocate->father_husband_name)
-                        <div>S/O {{ $advocate->father_husband_name }}</div>
+                        <div style="margin-bottom: 6px;"><strong>Son/Daughter/Father:</strong> {{
+                            $advocate->father_husband_name }}
+                        </div>
                         @endif
 
                         @if($advocate->date_of_enrolment_lower_courts || $advocate->date_of_enrolment_high_court ||
                         $advocate->date_of_enrolment_supreme_court)
-                        <div style="color: #70757a; font-size: 13px; margin-top: 4px;">
+                        <div style="color: #5f6368; margin-top: 8px; line-height: 1.8;">
                             @if($advocate->date_of_enrolment_lower_courts)
-                            Lower Courts: {{ $advocate->date_of_enrolment_lower_courts->format('M d, Y') }}
+                            <div><strong>Lower Courts:</strong> {{ $advocate->date_of_enrolment_lower_courts->format('M
+                                d, Y') }}</div>
                             @endif
                             @if($advocate->date_of_enrolment_high_court)
-                            • High Court: {{ $advocate->date_of_enrolment_high_court->format('M d, Y') }}
+                            <div><strong>High Court:</strong> {{ $advocate->date_of_enrolment_high_court->format('M d,
+                                Y') }}</div>
                             @endif
                             @if($advocate->date_of_enrolment_supreme_court)
-                            • Supreme Court: {{ $advocate->date_of_enrolment_supreme_court->format('M d, Y') }}
+                            <div><strong>Supreme Court:</strong> {{
+                                $advocate->date_of_enrolment_supreme_court->format('M d, Y') }}</div>
                             @endif
                         </div>
                         @endif
