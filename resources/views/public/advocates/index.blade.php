@@ -324,22 +324,8 @@
             position: relative;
         }
 
-        .result-item::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: -180px;
-            right: -9999px;
-            height: 1px;
-            background-color: #e8eaed;
-        }
-
         .result-item:last-child {
             border-bottom: none;
-        }
-
-        .result-item:last-child::after {
-            display: none;
         }
 
         .result-url {
