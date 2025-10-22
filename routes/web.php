@@ -6,7 +6,7 @@ use App\Http\Controllers\AdvocateController;
 use App\Http\Controllers\PublicAdvocateController;
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('public.advocates.index');
 });
 
 // Public Routes (No Authentication Required)

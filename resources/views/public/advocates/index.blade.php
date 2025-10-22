@@ -664,9 +664,11 @@
                     <div class="result-url">
                         <span class="result-url-text" style="color: #dc2626;">{{ $advocate->barAssociation->name ??
                             'N/A' }}</span>
-                        @if($advocate->permanent_member_of_bar_association)
+                        @if($advocate->permanent_member_of_bar_association &&
+                        $advocate->permanent_member_of_bar_association !== ($advocate->barAssociation->name ?? ''))
                         <span style="color: #70757a; margin: 0 4px;">›</span>
-                        <span style="color: #70757a;">{{ $advocate->permanent_member_of_bar_association }}</span>
+                        <span style="color: #70757a;">Permanent: {{ $advocate->permanent_member_of_bar_association
+                            }}</span>
                         @endif
                     </div>
 
