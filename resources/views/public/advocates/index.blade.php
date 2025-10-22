@@ -7,393 +7,321 @@
     <title>AJK Bar Council Members Directory</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <style>
-        body {
-            background: linear-gradient(to bottom, #f8fafc 0%, #ffffff 100%);
-            min-height: 100vh;
-        }
-
-        .search-container {
-            transition: all 0.3s ease;
-        }
-
-        .search-container.has-results {
-            transform: translateY(-20vh);
-        }
-
-        .filter-chip {
-            transition: all 0.2s ease;
-        }
-
-        .filter-chip:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        }
-
-        .result-card {
-            animation: slideIn 0.3s ease forwards;
-            opacity: 0;
-            transform: translateY(20px);
-        }
-
-        @keyframes slideIn {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .result-card:nth-child(1) {
-            animation-delay: 0.05s;
-        }
-
-        .result-card:nth-child(2) {
-            animation-delay: 0.1s;
-        }
-
-        .result-card:nth-child(3) {
-            animation-delay: 0.15s;
-        }
-
-        .result-card:nth-child(4) {
-            animation-delay: 0.2s;
-        }
-
-        .result-card:nth-child(5) {
-            animation-delay: 0.25s;
-        }
-
-        .logo-text {
-            font-family: 'Product Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            font-weight: 600;
-            letter-spacing: -0.5px;
-        }
-
         .search-box {
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            border: 1px solid #e5e7eb;
+            transition: all 0.15s ease-in-out;
         }
 
         .search-box:hover {
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
-            border-color: #d1d5db;
+            box-shadow: 0 1px 6px rgba(32, 33, 36, 0.28);
         }
 
         .search-box:focus-within {
-            box-shadow: 0 4px 20px rgba(59, 130, 246, 0.15);
-            border-color: #3b82f6;
+            box-shadow: 0 1px 6px rgba(32, 33, 36, 0.28);
+        }
+
+        .google-btn {
+            background-color: #f8f9fa;
+            border: 1px solid #f8f9fa;
+            color: #3c4043;
+            font-family: arial, sans-serif;
+            font-size: 14px;
+            margin: 11px 4px;
+            padding: 0 16px;
+            line-height: 27px;
+            height: 36px;
+            min-width: 54px;
+            text-align: center;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .google-btn:hover {
+            box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+            background-color: #f8f9fa;
+            border: 1px solid #dadce0;
+            color: #202124;
+        }
+
+        body {
+            font-family: arial, sans-serif;
         }
 
         .advanced-search {
             max-height: 0;
             overflow: hidden;
-            transition: max-height 0.4s ease;
+            transition: max-height 0.3s ease;
         }
 
         .advanced-search.open {
-            max-height: 600px;
-        }
-
-        .btn-primary {
-            background: linear-gradient(to right, #3b82f6, #2563eb);
-            color: white;
-            transition: all 0.2s ease;
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
-        }
-
-        .btn-secondary {
-            background: #f3f4f6;
-            border: 1px solid #e5e7eb;
-            transition: all 0.2s ease;
-        }
-
-        .btn-secondary:hover {
-            background: #e5e7eb;
-            transform: translateY(-1px);
-        }
-
-        .logo-container {
-            animation: fadeInScale 0.6s ease-out;
-        }
-
-        @keyframes fadeInScale {
-            from {
-                opacity: 0;
-                transform: scale(0.9);
-            }
-
-            to {
-                opacity: 1;
-                transform: scale(1);
-            }
+            max-height: 800px;
         }
     </style>
 </head>
 
 <body class="bg-white dark:bg-gray-900">
 
-    <!-- Main Container -->
-    <div class="min-h-screen flex flex-col">
+    @if (!$hasSearch)
+    <!-- Home Page - Google Style -->
+    <div class="flex flex-col items-center justify-center min-h-screen px-4">
+        <!-- Logo -->
+        <div class="text-center mb-8">
+            <div class="flex items-center justify-center mb-6">
+                <img src="{{ asset('icons-images/logo.jpg') }}" alt="AJK Bar Council Logo"
+                    class="h-24 w-24 md:h-32 md:w-32 object-contain">
+            </div>
+            <h1 class="text-4xl md:text-6xl font-normal mb-2 text-gray-700 dark:text-gray-200"
+                style="font-family: 'Product Sans', arial, sans-serif;">
+                AJK Bar Council
+            </h1>
+        </div>
 
-        <!-- Search Section -->
-        <div class="search-container flex-1 flex items-center justify-center {{ count($advocates) > 0 ? 'has-results' : '' }}"
-            style="padding-top: {{ count($advocates) > 0 ? '10vh' : '0' }}">
-            <div class="w-full max-w-3xl px-4">
+        <!-- Search Form -->
+        <form method="GET" action="{{ route('public.advocates.index') }}" class="w-full max-w-2xl">
+            <!-- Search Box -->
+            <div
+                class="search-box flex items-center w-full bg-white dark:bg-gray-800 rounded-full border border-gray-200 dark:border-gray-700 px-4 py-3 mb-8">
+                <svg class="w-5 h-5 text-gray-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                </svg>
+                <input type="text" name="search" value="{{ request('search') }}"
+                    placeholder="Search advocates by name, mobile, email..."
+                    class="flex-1 outline-none bg-transparent text-gray-700 dark:text-gray-200 text-base" autofocus>
+            </div>
 
-                <!-- Logo -->
-                <div class="text-center mb-6 md:mb-8 logo-container px-4">
-                    <div class="flex items-center justify-center mb-3 md:mb-4">
-                        <img src="{{ asset('icons-images/logo.jpg') }}" alt="AJK Bar Council Logo"
-                            class="h-20 w-20 md:h-28 md:w-28 object-contain rounded-full shadow-lg ring-4 ring-blue-50">
+            <!-- Buttons -->
+            <div class="flex items-center justify-center gap-3">
+                <button type="submit" class="google-btn rounded">
+                    Search Members
+                </button>
+                <button type="button" onclick="document.getElementById('advancedFilters').classList.toggle('hidden')"
+                    class="google-btn rounded">
+                    Advanced Search
+                </button>
+            </div>
+
+            <!-- Advanced Filters (Hidden by default) -->
+            <div id="advancedFilters" class="hidden mt-8 bg-white dark:bg-gray-800 rounded-lg border p-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                            Mobile Number
+                        </label>
+                        <input type="text" name="filter[mobile_no]" value="{{ request('filter.mobile_no') }}"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
                     </div>
-                    <h1 class="logo-text text-3xl md:text-5xl mb-2 text-gray-900 dark:text-white">
-                        AJK Bar Council
-                    </h1>
-                    <p class="text-gray-600 dark:text-gray-400 text-sm md:text-base mt-2 font-medium">
-                        Members Directory
-                    </p>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                            Email Address
+                        </label>
+                        <input type="email" name="filter[email_address]" value="{{ request('filter.email_address') }}"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                            Bar Association
+                        </label>
+                        <select name="filter[bar_association_id]"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <option value="">All Associations</option>
+                            @foreach ($barAssociations as $ba)
+                            <option value="{{ $ba->id }}" {{ request('filter.bar_association_id')==$ba->id ? 'selected'
+                                : '' }}>
+                                {{ $ba->name }}
+                            </option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                            Father's Name
+                        </label>
+                        <input type="text" name="filter[father_husband_name]"
+                            value="{{ request('filter.father_husband_name') }}"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    </div>
                 </div>
+            </div>
+        </form>
+    </div>
+
+    @else
+    <!-- Results Page - Google Style Header -->
+    <div class="border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
+        <div class="max-w-7xl mx-auto px-4 py-4">
+            <div class="flex items-center gap-8">
+                <!-- Logo -->
+                <a href="{{ route('public.advocates.index') }}" class="flex items-center gap-3 flex-shrink-0">
+                    <img src="{{ asset('icons-images/logo.jpg') }}" alt="Logo" class="h-10 w-10 object-contain">
+                    <span class="text-xl font-normal text-gray-700 dark:text-gray-200"
+                        style="font-family: 'Product Sans', arial, sans-serif;">
+                        AJK Bar Council
+                    </span>
+                </a>
 
                 <!-- Search Form -->
-                <form method="GET" action="{{ route('public.advocates.index') }}" id="searchForm">
-
-                    <!-- Main Search Box -->
-                    <div class="search-box bg-white dark:bg-gray-800 rounded-full shadow-lg mb-4 md:mb-6">
-                        <div class="flex items-center px-4 md:px-6 py-3 md:py-4">
-                            <svg class="w-4 h-4 md:w-5 md:h-5 text-gray-400 flex-shrink-0" fill="none"
-                                stroke="currentColor" viewBox="0 0 24 24">
+                <form method="GET" action="{{ route('public.advocates.index') }}" class="flex-1 max-w-2xl">
+                    <div
+                        class="search-box flex items-center bg-white dark:bg-gray-800 rounded-full border border-gray-300 dark:border-gray-600 px-4 py-2">
+                        <svg class="w-5 h-5 text-gray-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                        </svg>
+                        <input type="text" name="search" value="{{ request('search') }}"
+                            class="flex-1 outline-none bg-transparent text-gray-700 dark:text-gray-200 text-sm">
+                        @if(request('search'))
+                        <a href="{{ route('public.advocates.index') }}" class="ml-2">
+                            <svg class="w-5 h-5 text-gray-400 hover:text-gray-600" fill="currentColor"
+                                viewBox="0 0 20 20">
+                                <path fill-rule="evenodd"
+                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                        </a>
+                        @endif
+                        <button type="submit" class="ml-2">
+                            <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                             </svg>
-                            <input type="text" name="search" value="{{ request('search') }}"
-                                placeholder="Search by name, mobile, email..."
-                                class="flex-1 ml-3 md:ml-4 outline-none bg-transparent text-gray-700 dark:text-gray-200 text-base md:text-lg"
-                                autofocus>
-                            <button type="button"
-                                onclick="document.getElementById('advancedSearch').classList.toggle('open')"
-                                class="ml-2 md:ml-4 text-blue-600 hover:text-blue-700 font-medium text-xs md:text-sm whitespace-nowrap">
-                                Advanced
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Advanced Search Filters -->
-                    <div id="advancedSearch"
-                        class="advanced-search bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-4 md:p-6 mb-4 md:mb-6">
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
-
-                            <!-- Mobile Filter -->
-                            <div>
-                                <label
-                                    class="block text-xs md:text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                                    📱 Mobile Number
-                                </label>
-                                <input type="text" name="filter[mobile_no]" value="{{ request('filter.mobile_no') }}"
-                                    placeholder="03XX XXXXXXX"
-                                    class="w-full px-3 md:px-4 py-2 md:py-3 text-sm md:text-base border border-gray-200 dark:border-gray-700 rounded-lg dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                            </div>
-
-                            <!-- Email Filter -->
-                            <div>
-                                <label
-                                    class="block text-xs md:text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                                    ✉️ Email Address
-                                </label>
-                                <input type="email" name="filter[email_address]"
-                                    value="{{ request('filter.email_address') }}" placeholder="advocate@example.com"
-                                    class="w-full px-3 md:px-4 py-2 md:py-3 text-sm md:text-base border border-gray-200 dark:border-gray-700 rounded-lg dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                            </div>
-
-                            <!-- Bar Association Filter -->
-                            <div>
-                                <label
-                                    class="block text-xs md:text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                                    ⚖️ Bar Association
-                                </label>
-                                <select name="filter[bar_association_id]"
-                                    class="w-full px-3 md:px-4 py-2 md:py-3 text-sm md:text-base border border-gray-200 dark:border-gray-700 rounded-lg dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                                    <option value="">All Associations</option>
-                                    @foreach ($barAssociations as $ba)
-                                    <option value="{{ $ba->id }}" {{ request('filter.bar_association_id')==$ba->id ?
-                                        'selected' : '' }}>
-                                        {{ $ba->name }}
-                                    </option>
-                                    @endforeach
-                                </select>
-                            </div>
-
-                            <!-- Father Name Filter -->
-                            <div>
-                                <label
-                                    class="block text-xs md:text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                                    👤 Father's Name
-                                </label>
-                                <input type="text" name="filter[father_husband_name]"
-                                    value="{{ request('filter.father_husband_name') }}"
-                                    placeholder="Enter father's name"
-                                    class="w-full px-3 md:px-4 py-2 md:py-3 text-sm md:text-base border border-gray-200 dark:border-gray-700 rounded-lg dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Search Buttons -->
-                    <div class="flex flex-col sm:flex-row items-center justify-center gap-3 md:gap-4">
-                        <button type="submit"
-                            class="btn-primary w-full sm:w-auto px-6 md:px-8 py-3 rounded-lg font-semibold shadow-md text-sm md:text-base">
-                            🔍 Search Members
                         </button>
-                        <a href="{{ route('public.advocates.index') }}"
-                            class="btn-secondary w-full sm:w-auto px-6 md:px-8 py-3 rounded-lg text-gray-700 dark:text-gray-200 font-semibold text-sm md:text-base">
-                            Clear Filters
-                        </a>
                     </div>
+
+                    <!-- Hidden filters to maintain state -->
+                    @foreach(request('filter', []) as $key => $value)
+                    <input type="hidden" name="filter[{{ $key }}]" value="{{ $value }}">
+                    @endforeach
                 </form>
-
-            </div>
-        </div>
-
-        <!-- Results Section -->
-        @if ($hasSearch && count($advocates) > 0)
-        <div class="max-w-6xl mx-auto px-4 pb-12 w-full">
-
-            <!-- Results Header - Google Style -->
-            <div class="mb-6 border-b border-gray-200 dark:border-gray-700 pb-3">
-                <p class="text-sm text-gray-600 dark:text-gray-400">
-                    About {{ number_format($advocates->total()) }} results
-                </p>
             </div>
 
-            <!-- Results List - Google Style -->
-            <div class="space-y-6">
-                @foreach ($advocates as $advocate)
-                <div class="group">
-                    <!-- Name and URL -->
-                    <div class="flex items-start gap-3 mb-1">
-                        <a href="{{ route('public.advocates.show', $advocate->id) }}"
-                            class="text-xl text-blue-600 dark:text-blue-400 hover:underline visited:text-purple-600 dark:visited:text-purple-400">
-                            {{ $advocate->name }}
-                        </a>
-                        <!-- Membership Status Badge -->
-                        <span
-                            class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium {{ $advocate->is_active ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' : 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200' }}">
-                            {{ $advocate->is_active ? '✓ Active Member' : '✗ Inactive' }}
-                        </span>
-                    </div>
-
-                    <!-- URL breadcrumb style -->
-                    <div class="flex items-center gap-1 text-sm text-gray-600 dark:text-gray-400 mb-2">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-                        </svg>
-                        <span>{{ $advocate->barAssociation->name ?? 'N/A' }}</span>
-                        @if($advocate->permanent_member_of_bar_association)
-                        <span class="text-gray-400">›</span>
-                        <span class="text-xs">{{ $advocate->permanent_member_of_bar_association }}</span>
-                        @endif
-                    </div>
-
-                    <!-- Description / Details -->
-                    <div class="text-sm text-gray-700 dark:text-gray-300 max-w-3xl">
-                        <div class="flex flex-wrap gap-x-4 gap-y-1">
-                            @if($advocate->mobile_no)
-                            <span>📱 {{ $advocate->mobile_no }}</span>
-                            @endif
-                            @if($advocate->email_address)
-                            <span>✉️ {{ $advocate->email_address }}</span>
-                            @endif
-                            @if($advocate->father_husband_name)
-                            <span>👤 S/O {{ $advocate->father_husband_name }}</span>
-                            @endif
-                        </div>
-
-                        <!-- Enrolment Info -->
-                        @if($advocate->date_of_enrolment_lower_courts || $advocate->date_of_enrolment_high_court ||
-                        $advocate->date_of_enrolment_supreme_court)
-                        <div class="flex flex-wrap gap-x-4 gap-y-1 mt-2 text-xs text-gray-600 dark:text-gray-400">
-                            @if($advocate->date_of_enrolment_lower_courts)
-                            <span>⚖️ Lower Courts: {{ $advocate->date_of_enrolment_lower_courts->format('M d, Y')
-                                }}</span>
-                            @endif
-                            @if($advocate->date_of_enrolment_high_court)
-                            <span>⚖️ High Court: {{ $advocate->date_of_enrolment_high_court->format('M d, Y') }}</span>
-                            @endif
-                            @if($advocate->date_of_enrolment_supreme_court)
-                            <span>⚖️ Supreme Court: {{ $advocate->date_of_enrolment_supreme_court->format('M d, Y')
-                                }}</span>
-                            @endif
-                        </div>
-                        @endif
-
-                        @if($advocate->complete_address)
-                        <div class="text-xs text-gray-600 dark:text-gray-400 mt-2">
-                            📍 {{ $advocate->complete_address }}
-                        </div>
-                        @endif
-                    </div>
-                </div>
-                @endforeach
-            </div>
-
-            <!-- Pagination - Google Style -->
-            <div class="mt-12 flex justify-center">
-                <div class="flex items-center gap-2">
-                    {{ $advocates->onEachSide(1)->links() }}
-                </div>
-            </div>
-        </div>
-        @endif
-
-        @if ($hasSearch && count($advocates) === 0)
-        <div class="max-w-6xl mx-auto px-4 pb-12 w-full">
-            <div class="text-center py-8 md:py-12">
-                <div class="text-5xl md:text-6xl mb-4">🔍</div>
-                <h3 class="text-lg md:text-xl font-semibold text-gray-900 dark:text-white mb-2">
-                    No Results Found
-                </h3>
-                <p class="text-sm md:text-base text-gray-600 dark:text-gray-400 mb-6 px-4">
-                    Try different search terms or remove some filters
-                </p>
-                <a href="{{ route('public.advocates.index') }}"
-                    class="btn-secondary px-6 py-3 rounded-lg text-gray-700 dark:text-gray-200 font-semibold inline-block text-sm md:text-base">
-                    Clear All Filters
+            <!-- Navigation Tabs (Optional - like Google's All, Images, Videos, etc.) -->
+            <div class="flex items-center gap-6 mt-4 ml-44 text-sm">
+                <a href="#" class="flex items-center gap-2 pb-3 border-b-3 border-blue-600 text-blue-600">
+                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd"
+                            d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+                            clip-rule="evenodd" />
+                    </svg>
+                    All
                 </a>
             </div>
         </div>
-        @endif
-
     </div>
 
+    <!-- Results Section -->
+    @if ($hasSearch && count($advocates) > 0)
+    <div class="max-w-3xl mx-auto px-4 py-6" style="margin-left: 180px;">
+
+        <!-- Results Stats - Google Style -->
+        <div class="mb-6">
+            <p class="text-sm text-gray-600 dark:text-gray-400">
+                About {{ number_format($advocates->total()) }} results
+            </p>
+        </div>
+
+        <!-- Results List - Google Style -->
+        <div class="space-y-8">
+            @foreach ($advocates as $advocate)
+            <div class="max-w-2xl">
+                <!-- Name (Title) -->
+                <div class="mb-1">
+                    <a href="{{ route('public.advocates.show', $advocate->id) }}"
+                        class="text-xl text-blue-600 dark:text-blue-400 hover:underline visited:text-purple-600 dark:visited:text-purple-400"
+                        style="font-family: arial, sans-serif;">
+                        {{ $advocate->name }}
+                    </a>
+                    <!-- Membership Status Badge -->
+                    <span
+                        class="ml-3 inline-flex items-center px-2 py-0.5 rounded text-xs font-medium {{ $advocate->is_active ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' : 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200' }}">
+                        {{ $advocate->is_active ? '✓ Active' : '✗ Inactive' }}
+                    </span>
+                </div>
+
+                <!-- URL (Bar Association) -->
+                <div class="text-sm mb-2">
+                    <span class="text-green-700 dark:text-green-400">{{ $advocate->barAssociation->name ?? 'N/A'
+                        }}</span>
+                    @if($advocate->permanent_member_of_bar_association)
+                    <span class="text-gray-500"> › {{ $advocate->permanent_member_of_bar_association }}</span>
+                    @endif
+                </div>
+
+                <!-- Description -->
+                <div class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+                    <div class="mb-1">
+                        @if($advocate->mobile_no)
+                        <span class="mr-4">📱 {{ $advocate->mobile_no }}</span>
+                        @endif
+                        @if($advocate->email_address)
+                        <span>✉️ {{ $advocate->email_address }}</span>
+                        @endif
+                    </div>
+
+                    @if($advocate->father_husband_name)
+                    <div class="mb-1">
+                        S/O {{ $advocate->father_husband_name }}
+                    </div>
+                    @endif
+
+                    @if($advocate->date_of_enrolment_lower_courts || $advocate->date_of_enrolment_high_court ||
+                    $advocate->date_of_enrolment_supreme_court)
+                    <div class="text-xs text-gray-500 dark:text-gray-500 mt-1">
+                        @if($advocate->date_of_enrolment_lower_courts)
+                        Lower Courts: {{ $advocate->date_of_enrolment_lower_courts->format('M d, Y') }}
+                        @endif
+                        @if($advocate->date_of_enrolment_high_court)
+                        • High Court: {{ $advocate->date_of_enrolment_high_court->format('M d, Y') }}
+                        @endif
+                        @if($advocate->date_of_enrolment_supreme_court)
+                        • Supreme Court: {{ $advocate->date_of_enrolment_supreme_court->format('M d, Y') }}
+                        @endif
+                    </div>
+                    @endif
+                </div>
+            </div>
+            @endforeach
+        </div>
+
+        <!-- Pagination - Google Style -->
+        <div class="mt-12 flex justify-center">
+            {{ $advocates->onEachSide(1)->links() }}
+        </div>
+    </div>
+    @endif
+
+    @if ($hasSearch && count($advocates) === 0)
+    <div class="max-w-3xl mx-auto px-4 py-12" style="margin-left: 180px;">
+        <div class="text-center">
+            <div class="text-6xl mb-4">🔍</div>
+            <p class="text-base text-gray-600 dark:text-gray-400 mb-6">
+                Your search did not match any members.
+            </p>
+            <p class="text-sm text-gray-500 dark:text-gray-500">
+                Suggestions:<br>
+                • Make sure all words are spelled correctly<br>
+                • Try different keywords<br>
+                • Try more general keywords
+            </p>
+        </div>
+    </div>
+    @endif
+    @endif
+
     <!-- Footer -->
-    <footer class="bg-gray-50 dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 mt-auto">
-        <div class="max-w-6xl mx-auto px-4 py-4 md:py-6">
-            <div
-                class="flex flex-col md:flex-row md:items-center md:justify-between text-xs md:text-sm text-gray-600 dark:text-gray-400 gap-4">
-                <div class="flex flex-wrap justify-center md:justify-start gap-4 md:gap-6">
+    <footer class="bg-gray-100 dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 mt-auto">
+        <div class="max-w-7xl mx-auto px-4 py-3">
+            <div class="flex items-center justify-between text-xs text-gray-600 dark:text-gray-400">
+                <div class="flex gap-6">
                     <a href="#" class="hover:underline">About</a>
-                    <a href="#" class="hover:underline">Help</a>
                     <a href="#" class="hover:underline">Privacy</a>
                     <a href="#" class="hover:underline">Terms</a>
                 </div>
-                <div class="text-center md:text-left">
-                    <p>© 2025 AJK Bar Council Members Directory</p>
+                <div>
+                    © 2025 AJK Bar Council
                 </div>
             </div>
         </div>
     </footer>
-
-    <script>
-        // Auto-open advanced search if filters are active
-        document.addEventListener('DOMContentLoaded', function() {
-            const hasFilters = {{ (request()->has('filter') && (request('filter.mobile_no') || request('filter.email_address') || request('filter.bar_association_id') || request('filter.father_husband_name'))) ? 'true' : 'false' }};
-            if (hasFilters) {
-                document.getElementById('advancedSearch').classList.add('open');
-            }
-        });
-    </script>
 
 </body>
 
