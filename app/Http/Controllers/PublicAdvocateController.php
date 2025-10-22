@@ -18,17 +18,29 @@ class PublicAdvocateController extends Controller
     {
         $query = QueryBuilder::for(Advocate::class)
             ->where('is_active', true)
-            ->with('barAssociation')
-            ->allowedFilters([
-                AllowedFilter::partial('name'),
-                AllowedFilter::partial('email_address'),
-                AllowedFilter::partial('mobile_no'),
-                AllowedFilter::partial('father_husband_name'),
-                AllowedFilter::exact('bar_association_id'),
-                AllowedFilter::partial('visitor_member_of_bar_association'),
-                AllowedFilter::partial('voter_member_of_bar_association'),
-                AllowedFilter::partial('permanent_member_of_bar_association'),
-            ])
+            ->with('barAssociation');
+
+        // Global search - searches across multiple fields
+        if ($request->filled('search')) {
+            $searchTerm = $request->input('search');
+            $query->where(function ($q) use ($searchTerm) {
+                $q->where('name', 'like', "%{$searchTerm}%")
+                    ->orWhere('email_address', 'like', "%{$searchTerm}%")
+                    ->orWhere('mobile_no', 'like', "%{$searchTerm}%")
+                    ->orWhere('father_husband_name', 'like', "%{$searchTerm}%");
+            });
+        }
+
+        $query->allowedFilters([
+            AllowedFilter::partial('name'),
+            AllowedFilter::partial('email_address'),
+            AllowedFilter::partial('mobile_no'),
+            AllowedFilter::partial('father_husband_name'),
+            AllowedFilter::exact('bar_association_id'),
+            AllowedFilter::partial('visitor_member_of_bar_association'),
+            AllowedFilter::partial('voter_member_of_bar_association'),
+            AllowedFilter::partial('permanent_member_of_bar_association'),
+        ])
             ->allowedSorts([
                 AllowedSort::field('name'),
                 AllowedSort::field('email_address'),
@@ -36,10 +48,13 @@ class PublicAdvocateController extends Controller
                 AllowedSort::field('created_at'),
             ]);
 
-        $advocates = $query->paginate(15);
+        // Only paginate if there's a search or filter
+        $hasSearch = $request->filled('search') || $request->filled('filter');
+        $advocates = $hasSearch ? $query->paginate(15) : collect();
+
         $barAssociations = BarAssociation::where('is_active', true)->orderBy('name')->get();
 
-        return view('public.advocates.index', compact('advocates', 'barAssociations'));
+        return view('public.advocates.index', compact('advocates', 'barAssociations', 'hasSearch'));
     }
 
     /**

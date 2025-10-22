@@ -4,21 +4,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ $advocate->name }} - Member Details</title>
+    <title>{{ $advocate->name }} - Member Details | AJK Bar Council</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <style>
+        body {
+            background: linear-gradient(to bottom, #f8fafc 0%, #ffffff 100%);
+        }
+    </style>
 </head>
 
 <body class="bg-gray-50 dark:bg-gray-900">
     <!-- Header -->
-    <div class="bg-white dark:bg-gray-800 shadow-lg">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex items-center justify-between">
-            <h1 class="text-3xl font-bold text-gray-900 dark:text-white">
-                Member Details
-            </h1>
-            <a href="{{ route('public.advocates.index') }}"
-                class="px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white font-semibold rounded-lg transition duration-300">
-                ← Back
-            </a>
+    <div class="bg-white dark:bg-gray-800 shadow-md border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-4">
+                    <img src="{{ asset('icons-images/logo.jpg') }}" alt="AJK Bar Council Logo"
+                        class="h-12 w-12 object-contain rounded-full">
+                    <div>
+                        <h1 class="text-2xl font-bold text-gray-900 dark:text-white">
+                            AJK Bar Council
+                        </h1>
+                        <p class="text-sm text-gray-600 dark:text-gray-400">Member Details</p>
+                    </div>
+                </div>
+                <a href="{{ route('public.advocates.index') }}"
+                    class="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition duration-300 shadow-md">
+                    ← Back to Search
+                </a>
+            </div>
         </div>
     </div>
 
