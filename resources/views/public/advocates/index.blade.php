@@ -7,21 +7,99 @@
     <title>AJK Bar Council Members Directory</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <style>
+        body {
+            font-family: arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Google Search Box Styles */
+        .search-container {
+            width: 100%;
+            max-width: 584px;
+            margin: 0 auto;
+        }
+
         .search-box {
-            transition: all 0.15s ease-in-out;
+            width: 100%;
+            height: 44px;
+            background: #fff;
+            display: flex;
+            border: 1px solid #dfe1e5;
+            box-shadow: 0 1px 3px rgba(32, 33, 36, 0.1);
+            border-radius: 24px;
+            z-index: 3;
+            transition: box-shadow 0.2s, border-color 0.2s;
+            align-items: center;
+            padding: 0 14px;
         }
 
         .search-box:hover {
             box-shadow: 0 1px 6px rgba(32, 33, 36, 0.28);
+            border-color: rgba(223, 225, 229, 0);
         }
 
-        .search-box:focus-within {
-            box-shadow: 0 1px 6px rgba(32, 33, 36, 0.28);
+        .search-box-focused {
+            box-shadow: 0 2px 8px rgba(32, 33, 36, 0.35);
+            border-color: rgba(223, 225, 229, 0);
         }
 
-        .google-btn {
+        .search-icon {
+            color: #9aa0a6;
+            height: 20px;
+            width: 20px;
+            margin-right: 13px;
+            flex-shrink: 0;
+        }
+
+        .search-input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            outline: none;
+            font-size: 16px;
+            color: #202124;
+            padding: 0;
+            font-family: arial, sans-serif;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border: none;
+            box-shadow: none;
+        }
+
+        .clear-icon {
+            padding: 0 8px;
+            cursor: pointer;
+            color: #70757a;
+            height: 20px;
+            width: 20px;
+            display: none;
+        }
+
+        .search-input:not(:placeholder-shown)~.clear-icon {
+            display: block;
+        }
+
+        .voice-icon {
+            height: 24px;
+            width: 24px;
+            cursor: pointer;
+            color: #4285f4;
+            margin-left: 8px;
+        }
+
+        /* Google Button Styles */
+        .button-container {
+            padding-top: 18px;
+            text-align: center;
+        }
+
+        .google-button {
             background-color: #f8f9fa;
             border: 1px solid #f8f9fa;
+            border-radius: 4px;
             color: #3c4043;
             font-family: arial, sans-serif;
             font-size: 14px;
@@ -33,19 +111,44 @@
             text-align: center;
             cursor: pointer;
             user-select: none;
+            display: inline-block;
         }
 
-        .google-btn:hover {
+        .google-button:hover {
             box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
             background-color: #f8f9fa;
             border: 1px solid #dadce0;
             color: #202124;
         }
 
-        body {
-            font-family: arial, sans-serif;
+        /* Dark mode styles */
+        .dark .search-box {
+            background: #303134;
+            border: 1px solid #5f6368;
         }
 
+        .dark .search-box:hover {
+            background: #303134;
+            box-shadow: 0 1px 6px rgba(32, 33, 36, 0.28);
+            border-color: rgba(0, 0, 0, 0.0);
+        }
+
+        .dark .search-input {
+            color: #e8eaed;
+        }
+
+        .dark .google-button {
+            background-color: #303134;
+            border: 1px solid #303134;
+            color: #e8eaed;
+        }
+
+        .dark .google-button:hover {
+            border: 1px solid #5f6368;
+            box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Advanced Search Styles */
         .advanced-search {
             max-height: 0;
             overflow: hidden;
@@ -53,7 +156,219 @@
         }
 
         .advanced-search.open {
-            max-height: 800px;
+            max-height: 1000px;
+        }
+
+        /* Results Header (Small Search Box) */
+        .results-header {
+            padding: 12px 20px 0 180px;
+        }
+
+        .results-search-box {
+            height: 44px;
+            max-width: 584px;
+            background: #fff;
+            display: flex;
+            border: 1px solid #dfe1e5;
+            border-radius: 24px;
+            align-items: center;
+            padding: 0 14px;
+        }
+
+        .results-search-box:hover {
+            box-shadow: 0 1px 6px rgba(32, 33, 36, 0.28);
+        }
+
+        /* Navigation Tabs */
+        .nav-tabs {
+            padding: 0 20px 0 180px;
+            border-bottom: 1px solid #e8eaed;
+        }
+
+        .nav-tab {
+            display: inline-flex;
+            align-items: center;
+            color: #5f6368;
+            padding: 12px 12px 10px 12px;
+            font-size: 13px;
+            text-decoration: none;
+            border-bottom: 3px solid transparent;
+            margin-right: 22px;
+        }
+
+        .nav-tab:hover {
+            color: #202124;
+        }
+
+        .nav-tab.active {
+            color: #1a73e8;
+            border-bottom-color: #1a73e8;
+        }
+
+        .nav-tab svg {
+            height: 16px;
+            width: 16px;
+            margin-right: 6px;
+        }
+
+        /* Results Styles */
+        .results-container {
+            padding: 20px 20px 0 180px;
+            max-width: 652px;
+        }
+
+        .results-count {
+            color: #70757a;
+            font-size: 14px;
+            margin-bottom: 26px;
+        }
+
+        .result-item {
+            margin-bottom: 30px;
+        }
+
+        .result-url {
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+            line-height: 1.3;
+            margin-bottom: 3px;
+        }
+
+        .result-url-text {
+            color: #202124;
+        }
+
+        .result-title {
+            font-size: 20px;
+            line-height: 1.3;
+            font-weight: normal;
+            margin: 0 0 3px 0;
+            padding: 0;
+        }
+
+        .result-title a {
+            color: #1a0dab;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .result-title a:visited {
+            color: #681da8;
+        }
+
+        .result-title a:hover {
+            text-decoration: underline;
+        }
+
+        .result-snippet {
+            color: #4d5156;
+            font-size: 14px;
+            line-height: 1.58;
+            word-wrap: break-word;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 500;
+            margin-left: 8px;
+        }
+
+        .badge-active {
+            background-color: #e6f4ea;
+            color: #137333;
+        }
+
+        .badge-inactive {
+            background-color: #fce8e6;
+            color: #c5221f;
+        }
+
+        /* No Results */
+        .no-results {
+            padding: 100px 20px 0 180px;
+            max-width: 652px;
+        }
+
+        .no-results-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+
+        .no-results-text {
+            color: #70757a;
+            font-size: 20px;
+            margin-bottom: 20px;
+        }
+
+        .no-results-suggestions {
+            color: #70757a;
+            font-size: 14px;
+            line-height: 1.58;
+        }
+
+        /* Footer */
+        .footer {
+            background: #f2f2f2;
+            border-top: 1px solid #e4e4e4;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+
+        .footer-location {
+            padding: 15px 30px;
+            border-bottom: 1px solid #dadce0;
+            font-size: 15px;
+            color: #70757a;
+        }
+
+        .footer-links {
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+
+        .footer-link {
+            color: #70757a;
+            font-size: 14px;
+            text-decoration: none;
+            padding: 0 15px;
+        }
+
+        .footer-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Logo */
+        .logo-container {
+            text-align: center;
+            margin-bottom: 25px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .logo {
+            height: 200px;
+            width: 200px;
+            object-fit: contain;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+
+            .results-header,
+            .nav-tabs,
+            .results-container,
+            .no-results {
+                padding-left: 20px;
+            }
         }
     </style>
 </head>
@@ -61,84 +376,86 @@
 <body class="bg-white dark:bg-gray-900">
 
     @if (!$hasSearch)
-    <!-- Home Page - Google Style -->
-    <div class="flex flex-col items-center justify-center min-h-screen px-4">
+    <!-- Home Page - Exact Google Style -->
+    <div style="padding-top: 8vh;">
         <!-- Logo -->
-        <div class="text-center mb-8">
-            <div class="flex items-center justify-center mb-6">
-                <img src="{{ asset('icons-images/logo.jpg') }}" alt="AJK Bar Council Logo"
-                    class="h-24 w-24 md:h-32 md:w-32 object-contain">
-            </div>
-            <h1 class="text-4xl md:text-6xl font-normal mb-2 text-gray-700 dark:text-gray-200"
-                style="font-family: 'Product Sans', arial, sans-serif;">
-                AJK Bar Council
-            </h1>
+        <div class="logo-container">
+            <img src="{{ asset('icons-images/logo.jpg') }}" alt="AJK Bar Council Logo" class="logo">
         </div>
 
         <!-- Search Form -->
-        <form method="GET" action="{{ route('public.advocates.index') }}" class="w-full max-w-2xl">
-            <!-- Search Box -->
-            <div
-                class="search-box flex items-center w-full bg-white dark:bg-gray-800 rounded-full border border-gray-200 dark:border-gray-700 px-4 py-3 mb-8">
-                <svg class="w-5 h-5 text-gray-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                </svg>
-                <input type="text" name="search" value="{{ request('search') }}"
-                    placeholder="Search advocates by name, mobile, email..."
-                    class="flex-1 outline-none bg-transparent text-gray-700 dark:text-gray-200 text-base" autofocus>
-            </div>
+        <form method="GET" action="{{ route('public.advocates.index') }}">
+            <div class="search-container">
+                <!-- Search Box -->
+                <div class="search-box" id="searchBox">
+                    <svg class="search-icon" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path fill="currentColor"
+                            d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z">
+                        </path>
+                    </svg>
+                    <input type="text" name="search" value="{{ request('search') }}" class="search-input" title="Search"
+                        autocomplete="off" id="searchInput" autofocus
+                        placeholder="Search advocates by name, mobile, email...">
+                    <span class="clear-icon" id="clearButton"
+                        onclick="document.getElementById('searchInput').value=''; this.style.display='none';">
+                        <svg focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20"
+                            height="20">
+                            <path fill="currentColor"
+                                d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z">
+                            </path>
+                        </svg>
+                    </span>
+                </div>
 
-            <!-- Buttons -->
-            <div class="flex items-center justify-center gap-3">
-                <button type="submit" class="google-btn rounded">
-                    Search Members
-                </button>
-                <button type="button" onclick="document.getElementById('advancedFilters').classList.toggle('hidden')"
-                    class="google-btn rounded">
-                    Advanced Search
-                </button>
-            </div>
+                <!-- Buttons -->
+                <div class="button-container">
+                    <button type="submit" class="google-button">
+                        Search Members
+                    </button>
+                    <button type="button" onclick="toggleAdvanced()" class="google-button">
+                        Advanced Search
+                    </button>
+                </div>
 
-            <!-- Advanced Filters (Hidden by default) -->
-            <div id="advancedFilters" class="hidden mt-8 bg-white dark:bg-gray-800 rounded-lg border p-6">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                            Mobile Number
-                        </label>
-                        <input type="text" name="filter[mobile_no]" value="{{ request('filter.mobile_no') }}"
-                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                            Email Address
-                        </label>
-                        <input type="email" name="filter[email_address]" value="{{ request('filter.email_address') }}"
-                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                            Bar Association
-                        </label>
-                        <select name="filter[bar_association_id]"
-                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-                            <option value="">All Associations</option>
-                            @foreach ($barAssociations as $ba)
-                            <option value="{{ $ba->id }}" {{ request('filter.bar_association_id')==$ba->id ? 'selected'
-                                : '' }}>
-                                {{ $ba->name }}
-                            </option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                            Father's Name
-                        </label>
-                        <input type="text" name="filter[father_husband_name]"
-                            value="{{ request('filter.father_husband_name') }}"
-                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <!-- Advanced Filters -->
+                <div id="advancedFilters" class="advanced-search"
+                    style="margin-top: 30px; background: #fff; border: 1px solid #dfe1e5; border-radius: 8px; padding: 20px; max-width: 584px; margin-left: auto; margin-right: auto;">
+                    <h3 style="margin: 0 0 20px 0; font-size: 16px; color: #202124;">Advanced Search</h3>
+                    <div style="display: grid; gap: 16px;">
+                        <div>
+                            <label style="display: block; font-size: 13px; color: #5f6368; margin-bottom: 6px;">Mobile
+                                Number</label>
+                            <input type="text" name="filter[mobile_no]" value="{{ request('filter.mobile_no') }}"
+                                style="width: 100%; padding: 8px 12px; border: 1px solid #dfe1e5; border-radius: 4px; font-size: 14px;">
+                        </div>
+                        <div>
+                            <label style="display: block; font-size: 13px; color: #5f6368; margin-bottom: 6px;">Email
+                                Address</label>
+                            <input type="email" name="filter[email_address]"
+                                value="{{ request('filter.email_address') }}"
+                                style="width: 100%; padding: 8px 12px; border: 1px solid #dfe1e5; border-radius: 4px; font-size: 14px;">
+                        </div>
+                        <div>
+                            <label style="display: block; font-size: 13px; color: #5f6368; margin-bottom: 6px;">Bar
+                                Association</label>
+                            <select name="filter[bar_association_id]"
+                                style="width: 100%; padding: 8px 12px; border: 1px solid #dfe1e5; border-radius: 4px; font-size: 14px;">
+                                <option value="">All Associations</option>
+                                @foreach ($barAssociations as $ba)
+                                <option value="{{ $ba->id }}" {{ request('filter.bar_association_id')==$ba->id
+                                    ? 'selected' : '' }}>
+                                    {{ $ba->name }}
+                                </option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div>
+                            <label style="display: block; font-size: 13px; color: #5f6368; margin-bottom: 6px;">Father's
+                                Name</label>
+                            <input type="text" name="filter[father_husband_name]"
+                                value="{{ request('filter.father_husband_name') }}"
+                                style="width: 100%; padding: 8px 12px; border: 1px solid #dfe1e5; border-radius: 4px; font-size: 14px;">
+                        </div>
                     </div>
                 </div>
             </div>
@@ -146,126 +463,118 @@
     </div>
 
     @else
-    <!-- Results Page - Google Style Header -->
-    <div class="border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
-        <div class="max-w-7xl mx-auto px-4 py-4">
-            <div class="flex items-center gap-8">
+    <!-- Results Page - Google Style -->
+    <div style="padding: 20px 0;">
+        <!-- Results Header with Search Box -->
+        <form method="GET" action="{{ route('public.advocates.index') }}">
+            <div class="results-header" style="display: flex; align-items: center; gap: 32px; margin-bottom: 16px;">
                 <!-- Logo -->
-                <a href="{{ route('public.advocates.index') }}" class="flex items-center gap-3 flex-shrink-0">
-                    <img src="{{ asset('icons-images/logo.jpg') }}" alt="Logo" class="h-10 w-10 object-contain">
-                    <span class="text-xl font-normal text-gray-700 dark:text-gray-200"
-                        style="font-family: 'Product Sans', arial, sans-serif;">
-                        AJK Bar Council
-                    </span>
+                <a href="{{ route('public.advocates.index') }}" style="flex-shrink: 0;">
+                    <img src="{{ asset('icons-images/logo.jpg') }}" alt="Logo"
+                        style="height: 40px; width: 40px; object-fit: contain;">
                 </a>
 
-                <!-- Search Form -->
-                <form method="GET" action="{{ route('public.advocates.index') }}" class="flex-1 max-w-2xl">
-                    <div
-                        class="search-box flex items-center bg-white dark:bg-gray-800 rounded-full border border-gray-300 dark:border-gray-600 px-4 py-2">
-                        <svg class="w-5 h-5 text-gray-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                        </svg>
-                        <input type="text" name="search" value="{{ request('search') }}"
-                            class="flex-1 outline-none bg-transparent text-gray-700 dark:text-gray-200 text-sm">
-                        @if(request('search'))
-                        <a href="{{ route('public.advocates.index') }}" class="ml-2">
-                            <svg class="w-5 h-5 text-gray-400 hover:text-gray-600" fill="currentColor"
-                                viewBox="0 0 20 20">
-                                <path fill-rule="evenodd"
-                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
-                                    clip-rule="evenodd" />
-                            </svg>
-                        </a>
-                        @endif
-                        <button type="submit" class="ml-2">
-                            <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                            </svg>
-                        </button>
-                    </div>
-
-                    <!-- Hidden filters to maintain state -->
-                    @foreach(request('filter', []) as $key => $value)
-                    <input type="hidden" name="filter[{{ $key }}]" value="{{ $value }}">
-                    @endforeach
-                </form>
-            </div>
-
-            <!-- Navigation Tabs (Optional - like Google's All, Images, Videos, etc.) -->
-            <div class="flex items-center gap-6 mt-4 ml-44 text-sm">
-                <a href="#" class="flex items-center gap-2 pb-3 border-b-3 border-blue-600 text-blue-600">
-                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd"
-                            d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                            clip-rule="evenodd" />
+                <!-- Search Box -->
+                <div class="results-search-box" style="flex: 1;">
+                    <svg class="search-icon" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path fill="currentColor"
+                            d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z">
+                        </path>
                     </svg>
-                    All
-                </a>
-            </div>
-        </div>
-    </div>
-
-    <!-- Results Section -->
-    @if ($hasSearch && count($advocates) > 0)
-    <div class="max-w-3xl mx-auto px-4 py-6" style="margin-left: 180px;">
-
-        <!-- Results Stats - Google Style -->
-        <div class="mb-6">
-            <p class="text-sm text-gray-600 dark:text-gray-400">
-                About {{ number_format($advocates->total()) }} results
-            </p>
-        </div>
-
-        <!-- Results List - Google Style -->
-        <div class="space-y-8">
-            @foreach ($advocates as $advocate)
-            <div class="max-w-2xl">
-                <!-- Name (Title) -->
-                <div class="mb-1">
-                    <a href="{{ route('public.advocates.show', $advocate->id) }}"
-                        class="text-xl text-blue-600 dark:text-blue-400 hover:underline visited:text-purple-600 dark:visited:text-purple-400"
-                        style="font-family: arial, sans-serif;">
-                        {{ $advocate->name }}
+                    <input type="text" name="search" value="{{ request('search') }}" class="search-input"
+                        autocomplete="off">
+                    @if(request('search'))
+                    <a href="{{ route('public.advocates.index') }}" style="padding: 0 8px;">
+                        <svg focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20"
+                            height="20">
+                            <path fill="#70757a"
+                                d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z">
+                            </path>
+                        </svg>
                     </a>
-                    <!-- Membership Status Badge -->
-                    <span
-                        class="ml-3 inline-flex items-center px-2 py-0.5 rounded text-xs font-medium {{ $advocate->is_active ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' : 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200' }}">
-                        {{ $advocate->is_active ? '✓ Active' : '✗ Inactive' }}
-                    </span>
+                    @endif
+                    <button type="submit" style="background: none; border: none; padding: 0 8px; cursor: pointer;">
+                        <svg class="search-icon" focusable="false" xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 24 24">
+                            <path fill="#4285f4"
+                                d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z">
+                            </path>
+                        </svg>
+                    </button>
                 </div>
+            </div>
 
-                <!-- URL (Bar Association) -->
-                <div class="text-sm mb-2">
-                    <span class="text-green-700 dark:text-green-400">{{ $advocate->barAssociation->name ?? 'N/A'
-                        }}</span>
+            <!-- Hidden filters -->
+            @foreach(request('filter', []) as $key => $value)
+            <input type="hidden" name="filter[{{ $key }}]" value="{{ $value }}">
+            @endforeach
+        </form>
+
+        <!-- Navigation Tabs -->
+        <div class="nav-tabs">
+            <a href="#" class="nav-tab active">
+                <svg focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path fill="currentColor"
+                        d="M10 2v2a6 6 0 0 1 6 6h2a8 8 0 0 0-8-8zm0 4v2a2 2 0 0 1 2 2h2c0-2.21-1.79-4-4-4zm8.5 2c-.28 0-.5.22-.5.5v10c0 .28.22.5.5.5s.5-.22.5-.5v-10c0-.28-.22-.5-.5-.5zM12 8c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm0 6c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z">
+                    </path>
+                </svg>
+                All
+            </a>
+        </div>
+
+        <!-- Results -->
+        @if (count($advocates) > 0)
+        <div class="results-container">
+            <!-- Results Count -->
+            <div class="results-count">
+                About {{ number_format($advocates->total()) }} results
+            </div>
+
+            <!-- Results List -->
+            @foreach ($advocates as $advocate)
+            <div class="result-item">
+                <!-- URL/Bar Association -->
+                <div class="result-url">
+                    <span class="result-url-text">{{ $advocate->barAssociation->name ?? 'N/A' }}</span>
                     @if($advocate->permanent_member_of_bar_association)
-                    <span class="text-gray-500"> › {{ $advocate->permanent_member_of_bar_association }}</span>
+                    <span style="color: #70757a; margin: 0 4px;">›</span>
+                    <span style="color: #70757a;">{{ $advocate->permanent_member_of_bar_association }}</span>
                     @endif
                 </div>
 
-                <!-- Description -->
-                <div class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
-                    <div class="mb-1">
+                <!-- Title/Name -->
+                <h3 class="result-title">
+                    <a href="{{ route('public.advocates.show', $advocate->id) }}">
+                        {{ $advocate->name }}
+                    </a>
+                    <span class="badge {{ $advocate->is_active ? 'badge-active' : 'badge-inactive' }}">
+                        {{ $advocate->is_active ? '✓ Active' : '✗ Inactive' }}
+                    </span>
+                </h3>
+
+                <!-- Snippet/Description -->
+                <div class="result-snippet">
+                    @if($advocate->mobile_no || $advocate->email_address)
+                    <div style="margin-bottom: 4px;">
                         @if($advocate->mobile_no)
-                        <span class="mr-4">📱 {{ $advocate->mobile_no }}</span>
+                        <span>📱 {{ $advocate->mobile_no }}</span>
+                        @endif
+                        @if($advocate->mobile_no && $advocate->email_address)
+                        <span style="margin: 0 8px;">•</span>
                         @endif
                         @if($advocate->email_address)
                         <span>✉️ {{ $advocate->email_address }}</span>
                         @endif
                     </div>
+                    @endif
 
                     @if($advocate->father_husband_name)
-                    <div class="mb-1">
-                        S/O {{ $advocate->father_husband_name }}
-                    </div>
+                    <div>S/O {{ $advocate->father_husband_name }}</div>
                     @endif
 
                     @if($advocate->date_of_enrolment_lower_courts || $advocate->date_of_enrolment_high_court ||
                     $advocate->date_of_enrolment_supreme_court)
-                    <div class="text-xs text-gray-500 dark:text-gray-500 mt-1">
+                    <div style="color: #70757a; font-size: 13px; margin-top: 4px;">
                         @if($advocate->date_of_enrolment_lower_courts)
                         Lower Courts: {{ $advocate->date_of_enrolment_lower_courts->format('M d, Y') }}
                         @endif
@@ -280,48 +589,89 @@
                 </div>
             </div>
             @endforeach
-        </div>
 
-        <!-- Pagination - Google Style -->
-        <div class="mt-12 flex justify-center">
-            {{ $advocates->onEachSide(1)->links() }}
+            <!-- Pagination -->
+            <div style="margin-top: 40px;">
+                {{ $advocates->onEachSide(1)->links() }}
+            </div>
         </div>
-    </div>
-    @endif
+        @endif
 
-    @if ($hasSearch && count($advocates) === 0)
-    <div class="max-w-3xl mx-auto px-4 py-12" style="margin-left: 180px;">
-        <div class="text-center">
-            <div class="text-6xl mb-4">🔍</div>
-            <p class="text-base text-gray-600 dark:text-gray-400 mb-6">
-                Your search did not match any members.
-            </p>
-            <p class="text-sm text-gray-500 dark:text-gray-500">
-                Suggestions:<br>
-                • Make sure all words are spelled correctly<br>
-                • Try different keywords<br>
-                • Try more general keywords
-            </p>
+        <!-- No Results -->
+        @if (count($advocates) === 0)
+        <div class="no-results">
+            <div class="no-results-icon">🔍</div>
+            <div class="no-results-text">
+                Your search - <strong>{{ request('search') }}</strong> - did not match any members.
+            </div>
+            <div class="no-results-suggestions">
+                <p style="margin: 10px 0;"><strong>Suggestions:</strong></p>
+                <ul style="margin: 0; padding-left: 20px; line-height: 1.8;">
+                    <li>Make sure all words are spelled correctly.</li>
+                    <li>Try different keywords.</li>
+                    <li>Try more general keywords.</li>
+                    <li>Try using the advanced search options.</li>
+                </ul>
+            </div>
         </div>
+        @endif
     </div>
-    @endif
     @endif
 
     <!-- Footer -->
-    <footer class="bg-gray-100 dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 mt-auto">
-        <div class="max-w-7xl mx-auto px-4 py-3">
-            <div class="flex items-center justify-between text-xs text-gray-600 dark:text-gray-400">
-                <div class="flex gap-6">
-                    <a href="#" class="hover:underline">About</a>
-                    <a href="#" class="hover:underline">Privacy</a>
-                    <a href="#" class="hover:underline">Terms</a>
-                </div>
-                <div>
-                    © 2025 AJK Bar Council
-                </div>
+    <div class="footer" style="{{ $hasSearch ? 'position: relative; margin-top: 60px;' : '' }}">
+        <div class="footer-location" style="text-align: center">
+            Azad Jammu and Kashmir Bar Council - Member Directory
+        </div>
+        <div class="footer-links">
+            <div>
+                <a href="#" class="footer-link">Home</a>
+                <a href="#" class="footer-link">Advertising</a>
+                <a href="#" class="footer-link">Business</a>
+                <a href="#" class="footer-link">How Search works</a>
+            </div>
+            <div>
+                <a href="#" class="footer-link">Privacy</a>
+                <a href="#" class="footer-link">Terms</a>
+                <a href="#" class="footer-link">Settings</a>
             </div>
         </div>
-    </footer>
+    </div>
+
+    <script>
+        // Search box focus effect
+        const searchBox = document.getElementById('searchBox');
+        const searchInput = document.getElementById('searchInput');
+        const clearButton = document.getElementById('clearButton');
+
+        if (searchInput) {
+            searchInput.addEventListener('focus', function () {
+                if (searchBox) {
+                    searchBox.classList.add('search-box-focused');
+                }
+            });
+
+            searchInput.addEventListener('blur', function () {
+                if (searchBox) {
+                    searchBox.classList.remove('search-box-focused');
+                }
+            });
+
+            searchInput.addEventListener('input', function () {
+                if (clearButton) {
+                    clearButton.style.display = this.value ? 'block' : 'none';
+                }
+            });
+        }
+
+        // Toggle advanced search
+        function toggleAdvanced() {
+            const filters = document.getElementById('advancedFilters');
+            if (filters) {
+                filters.classList.toggle('open');
+            }
+        }
+    </script>
 
 </body>
 
