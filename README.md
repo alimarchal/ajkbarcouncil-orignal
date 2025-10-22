@@ -302,7 +302,7 @@ This project is licensed under the MIT License.
 
 ## 👥 Support
 
-For support, email [support@ajkbarcouncil.gov.pk](mailto:support@ajkbarcouncil.gov.pk)
+For support, email [kh.marchal@gmail.com](mailto:kh.marchal@gmail.com)
 
 ## 🔄 Version History
 
@@ -318,4 +318,5 @@ For support, email [support@ajkbarcouncil.gov.pk](mailto:support@ajkbarcouncil.g
 ---
 
 **Developed for**: Azad Jammu and Kashmir Bar Council  
+**Developed by**: SeeChange Innovative Pvt Ltd & MOON CREATIONS  
 **Repository**: https://github.com/alimarchal/ajkbarcouncil-orignal
