@@ -505,7 +505,9 @@
         <div style="padding-top: 8vh;">
             <!-- Logo -->
             <div class="logo-container">
-                <img src="{{ asset('icons-images/logo.jpg') }}" alt="AJK Bar Council Logo" class="logo">
+                <a href="{{ route('public.advocates.index') }}">
+                    <img src="{{ asset('icons-images/logo.jpg') }}" alt="AJK Bar Council Logo" class="logo">
+                </a>
             </div>
 
             <!-- Search Form -->
