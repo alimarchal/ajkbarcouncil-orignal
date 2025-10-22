@@ -8,213 +8,253 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <style>
         body {
-            background: linear-gradient(to bottom, #f8fafc 0%, #ffffff 100%);
+            background: #f9fafb;
+        }
+
+        /* Global table styles - screen and print */
+        table,
+        th,
+        td {
+            border: 1px solid #000 !important;
+            border-collapse: collapse;
+        }
+
+        table {
+            width: 100%;
+        }
+
+        td {
+            padding: 8px !important;
+            text-align: left !important;
+            font-size: 14px;
+        }
+
+        /* Hover effect for screen */
+        table tr:hover td {
+            background-color: #f3f4f6;
+        }
+
+        @media print {
+            body {
+                margin: 0;
+                padding: 0;
+            }
+
+            table,
+            th,
+            td {
+                border: 1px solid #000 !important;
+                border-collapse: collapse;
+            }
+
+            th,
+            td {
+                padding: 4px 6px !important;
+                font-size: 11px !important;
+                text-align: left !important;
+            }
+
+            table {
+                width: 100%;
+                page-break-inside: avoid;
+            }
+
+            .print-wrapper {
+                padding: 0.5cm;
+            }
+
+            tr:nth-child(even) {
+                background-color: #f8f8f8 !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+
+            .screen-only {
+                display: none !important;
+            }
+
+            img {
+                print-color-adjust: exact;
+                -webkit-print-color-adjust: exact;
+            }
+
+            @page {
+                margin: 10mm;
+            }
         }
     </style>
 </head>
 
 <body class="bg-gray-50 dark:bg-gray-900">
-    <!-- Header -->
-    <div class="bg-white dark:bg-gray-800 shadow-md border-b border-gray-200">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-            <div class="flex items-center justify-between">
-                <div class="flex items-center space-x-4">
-                    <img src="{{ asset('icons-images/logo.jpg') }}" alt="AJK Bar Council Logo"
-                        class="h-12 w-12 object-contain rounded-full">
-                    <div>
-                        <h1 class="text-2xl font-bold text-gray-900 dark:text-white">
-                            AJK Bar Council
-                        </h1>
-                        <p class="text-sm text-gray-600 dark:text-gray-400">Member Details</p>
-                    </div>
-                </div>
+    <div class="py-6">
+        <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
+            <!-- Back Button (Screen Only) -->
+            <div class="mb-4 screen-only">
                 <a href="{{ route('public.advocates.index') }}"
-                    class="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition duration-300 shadow-md">
-                    ← Back to Search
+                    class="inline-flex items-center px-4 py-2 bg-blue-950 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-800 focus:bg-blue-800 active:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150">
+                    <svg class="w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                    </svg>
+                    Back to Search
                 </a>
             </div>
-        </div>
-    </div>
 
-    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <!-- Advocate Card -->
-        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-xl overflow-hidden">
-            <!-- Header Section -->
-            <div class="bg-gradient-to-r from-blue-600 to-blue-800 px-8 py-12 text-white">
-                <div class="flex items-center gap-6">
-                    <div class="w-24 h-24 bg-white rounded-full flex items-center justify-center">
-                        <svg class="w-16 h-16 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
-                                clip-rule="evenodd" />
-                        </svg>
+            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-xl sm:rounded-lg">
+                <div class="p-8">
+                    <!-- Header with Logo and Title -->
+                    <div class="flex items-center justify-center mb-8 pb-8 border-b-2 border-gray-300">
+                        <div class="flex items-center justify-center gap-4">
+                            <img src="{{ asset('icons-images/logo.jpg') }}" alt="Bar Council Logo" class="h-24 w-24">
+                            <div class="text-center">
+                                <h1 class="text-3xl font-bold text-gray-900">Portal Azad Jammu & Kashmir Bar Council
+                                </h1>
+                                <p class="text-xl font-semibold text-gray-700 mt-2">{{ $advocate->barAssociation->name
+                                    ?? 'N/A'
+                                    }}</p>
+                            </div>
+                        </div>
                     </div>
-                    <div>
-                        <h2 class="text-4xl font-bold mb-2">{{ $advocate->name }}</h2>
-                        <p class="text-blue-100 text-lg">{{ $advocate->barAssociation->name ?? 'N/A' }}</p>
-                    </div>
+
+                    <!-- Advocate Information Table -->
+                    <table class="w-full">
+                        <tbody>
+                            <tr
+                                class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 print:hover:bg-white">
+                                <td class="px-2 py-2 border border-black text-left font-semibold">Name of Advocate
+                                </td>
+                                <td class="px-2 py-2 border border-black text-left">{{ $advocate->name }}</td>
+                            </tr>
+                            <tr
+                                class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 print:hover:bg-white">
+                                <td class="px-2 py-2 border border-black text-left font-semibold">Father's Name</td>
+                                <td class="px-2 py-2 border border-black text-left">{{ $advocate->father_husband_name ??
+                                    'N/A'
+                                    }}</td>
+                            </tr>
+                            <tr
+                                class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 print:hover:bg-white">
+                                <td class="px-2 py-2 border border-black text-left font-semibold">Complete Address
+                                </td>
+                                <td class="px-2 py-2 border border-black text-left">{{ $advocate->complete_address ??
+                                    'N/A' }}
+                                </td>
+                            </tr>
+                            <tr
+                                class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 print:hover:bg-white">
+                                <td class="px-2 py-2 border border-black text-left font-semibold">Permanent Member of
+                                    Bar Association</td>
+                                <td class="px-2 py-2 border border-black text-left">{{
+                                    $advocate->permanent_member_of_bar_association ?? $advocate->barAssociation->name ??
+                                    'N/A' }}
+                                </td>
+                            </tr>
+                            <tr
+                                class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 print:hover:bg-white">
+                                <td class="px-2 py-2 border border-black text-left font-semibold">Visitor Member of
+                                    Bar Association</td>
+                                <td class="px-2 py-2 border border-black text-left">{{
+                                    $advocate->visitor_member_of_bar_association ?? 'Nil' }}</td>
+                            </tr>
+                            <tr
+                                class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 print:hover:bg-white">
+                                <td class="px-2 py-2 border border-black text-left font-semibold">Date of Enrolment
+                                    Lower Courts</td>
+                                <td class="px-2 py-2 border border-black text-left">
+                                    @if($advocate->date_of_enrolment_lower_courts)
+                                    {{ $advocate->date_of_enrolment_lower_courts->format('d-m-Y') }}
+                                    <span class="text-xs text-gray-600">({{
+                                        $advocate->getDetailedAgeDifference($advocate->date_of_enrolment_lower_courts)
+                                        }})</span>
+                                    @else
+                                    N/A
+                                    @endif
+                                </td>
+                            </tr>
+                            <tr
+                                class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 print:hover:bg-white">
+                                <td class="px-2 py-2 border border-black text-left font-semibold">Date of Enrolment
+                                    High Court</td>
+                                <td class="px-2 py-2 border border-black text-left">
+                                    @if($advocate->date_of_enrolment_high_court)
+                                    {{ $advocate->date_of_enrolment_high_court->format('d-m-Y') }}
+                                    <span class="text-xs text-gray-600">({{
+                                        $advocate->getDetailedAgeDifference($advocate->date_of_enrolment_high_court)
+                                        }})</span>
+                                    @else
+                                    N/A
+                                    @endif
+                                </td>
+                            </tr>
+                            <tr
+                                class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 print:hover:bg-white">
+                                <td class="px-2 py-2 border border-black text-left font-semibold">Date of Enrolment
+                                    Supreme Court</td>
+                                <td class="px-2 py-2 border border-black text-left">
+                                    @if($advocate->date_of_enrolment_supreme_court)
+                                    {{ $advocate->date_of_enrolment_supreme_court->format('d-m-Y') }}
+                                    <span class="text-xs text-gray-600">({{
+                                        $advocate->getDetailedAgeDifference($advocate->date_of_enrolment_supreme_court)
+                                        }})</span>
+                                    @else
+                                    N/A
+                                    @endif
+                                </td>
+                            </tr>
+                            <tr
+                                class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 print:hover:bg-white">
+                                <td class="px-2 py-2 border border-black text-left font-semibold">Voter Member of Bar
+                                    Association</td>
+                                <td class="px-2 py-2 border border-black text-left">{{
+                                    $advocate->voter_member_of_bar_association ?? 'N/A' }}</td>
+                            </tr>
+                            <tr
+                                class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 print:hover:bg-white">
+                                <td class="px-2 py-2 border border-black text-left font-semibold">Duration of Practice
+                                </td>
+                                <td class="px-2 py-2 border border-black text-left">
+                                    @if($advocate->duration_of_practice)
+                                    {{ $advocate->duration_of_practice->format('d-m-Y') }}
+                                    <span class="text-xs text-gray-600">({{
+                                        $advocate->getDetailedAgeDifference($advocate->duration_of_practice)
+                                        }})</span>
+                                    @else
+                                    N/A
+                                    @endif
+                                </td>
+                            </tr>
+                            <tr
+                                class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 print:hover:bg-white">
+                                <td class="px-2 py-2 border border-black text-left font-semibold">Mobile No</td>
+                                <td class="px-2 py-2 border border-black text-left">{{ $advocate->mobile_no ?? 'N/A' }}
+                                </td>
+                            </tr>
+                            <tr
+                                class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 print:hover:bg-white">
+                                <td class="px-2 py-2 border border-black text-left font-semibold">Email Address</td>
+                                <td class="px-2 py-2 border border-black text-left">{{ $advocate->email_address ??
+                                    'Nil' }}</td>
+                            </tr>
+                            <tr
+                                class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 print:hover:bg-white">
+                                <td class="px-2 py-2 border border-black text-left font-semibold">Status</td>
+                                <td class="px-2 py-2 border border-black text-left">
+                                    <span
+                                        class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium {{ $advocate->is_active ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
+                                        {{ $advocate->is_active ? 'Active' : 'Inactive' }}
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
-            </div>
-
-            <!-- Content Section -->
-            <div class="p-8 space-y-8">
-                <!-- Personal Information -->
-                <div class="border-b border-gray-200 dark:border-gray-700 pb-8">
-                    <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-6 flex items-center">
-                        <span
-                            class="bg-blue-600 text-white w-8 h-8 rounded-full flex items-center justify-center mr-3 text-lg">👤</span>
-                        Personal Information
-                    </h3>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
-                            <p class="text-sm font-semibold text-gray-600 dark:text-gray-400">Name</p>
-                            <p class="text-lg font-bold text-gray-900 dark:text-white mt-1">{{ $advocate->name }}</p>
-                        </div>
-                        <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
-                            <p class="text-sm font-semibold text-gray-600 dark:text-gray-400">Father/Husband Name</p>
-                            <p class="text-lg font-bold text-gray-900 dark:text-white mt-1">{{
-                                $advocate->father_husband_name ?? 'N/A' }}</p>
-                        </div>
-                        <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg md:col-span-2">
-                            <p class="text-sm font-semibold text-gray-600 dark:text-gray-400">Complete Address</p>
-                            <p class="text-lg font-bold text-gray-900 dark:text-white mt-1">{{
-                                $advocate->complete_address ?? 'N/A' }}</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Contact Information -->
-                <div class="border-b border-gray-200 dark:border-gray-700 pb-8">
-                    <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-6 flex items-center">
-                        <span
-                            class="bg-green-600 text-white w-8 h-8 rounded-full flex items-center justify-center mr-3 text-lg">📞</span>
-                        Contact Information
-                    </h3>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
-                            <p class="text-sm font-semibold text-gray-600 dark:text-gray-400">Mobile Number</p>
-                            <p class="text-lg font-bold text-gray-900 dark:text-white mt-1 font-mono">{{
-                                $advocate->mobile_no ?? 'N/A' }}</p>
-                        </div>
-                        <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
-                            <p class="text-sm font-semibold text-gray-600 dark:text-gray-400">Email</p>
-                            <p class="text-lg font-bold text-blue-600 dark:text-blue-400 mt-1 break-all">{{
-                                $advocate->email_address ?? 'N/A' }}</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Bar Association Information -->
-                <div class="border-b border-gray-200 dark:border-gray-700 pb-8">
-                    <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-6 flex items-center">
-                        <span
-                            class="bg-purple-600 text-white w-8 h-8 rounded-full flex items-center justify-center mr-3 text-lg">⚖️</span>
-                        Bar Association Information
-                    </h3>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
-                            <p class="text-sm font-semibold text-gray-600 dark:text-gray-400">Bar Association</p>
-                            <p class="text-lg font-bold text-gray-900 dark:text-white mt-1">{{
-                                $advocate->barAssociation->name ?? 'N/A' }}</p>
-                        </div>
-                        <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
-                            <p class="text-sm font-semibold text-gray-600 dark:text-gray-400">Permanent Member</p>
-                            <p class="text-lg font-bold text-gray-900 dark:text-white mt-1">{{
-                                $advocate->permanent_member_of_bar_association ?? 'N/A' }}</p>
-                        </div>
-                        <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
-                            <p class="text-sm font-semibold text-gray-600 dark:text-gray-400">Visitor Member</p>
-                            <p class="text-lg font-bold text-gray-900 dark:text-white mt-1">{{
-                                $advocate->visitor_member_of_bar_association ?? 'N/A' }}</p>
-                        </div>
-                        <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
-                            <p class="text-sm font-semibold text-gray-600 dark:text-gray-400">Voter Member</p>
-                            <p class="text-lg font-bold text-gray-900 dark:text-white mt-1">{{
-                                $advocate->voter_member_of_bar_association ?? 'N/A' }}</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Enrolment Information -->
-                <div>
-                    <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-6 flex items-center">
-                        <span
-                            class="bg-orange-600 text-white w-8 h-8 rounded-full flex items-center justify-center mr-3 text-lg">📋</span>
-                        Enrolment Details
-                    </h3>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
-                            <p class="text-sm font-semibold text-gray-600 dark:text-gray-400">Lower Courts</p>
-                            <p class="text-lg font-bold text-gray-900 dark:text-white mt-1">
-                                @if ($advocate->date_of_enrolment_lower_courts)
-                                {{ $advocate->date_of_enrolment_lower_courts->format('d-m-Y') }}
-                                <span class="text-xs text-gray-600 dark:text-gray-400 block mt-1">
-                                    ({{ $advocate->getDetailedAgeDifference($advocate->date_of_enrolment_lower_courts)
-                                    }})
-                                </span>
-                                @else
-                                N/A
-                                @endif
-                            </p>
-                        </div>
-                        <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
-                            <p class="text-sm font-semibold text-gray-600 dark:text-gray-400">High Court</p>
-                            <p class="text-lg font-bold text-gray-900 dark:text-white mt-1">
-                                @if ($advocate->date_of_enrolment_high_court)
-                                {{ $advocate->date_of_enrolment_high_court->format('d-m-Y') }}
-                                <span class="text-xs text-gray-600 dark:text-gray-400 block mt-1">
-                                    ({{ $advocate->getDetailedAgeDifference($advocate->date_of_enrolment_high_court) }})
-                                </span>
-                                @else
-                                N/A
-                                @endif
-                            </p>
-                        </div>
-                        <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
-                            <p class="text-sm font-semibold text-gray-600 dark:text-gray-400">Supreme Court</p>
-                            <p class="text-lg font-bold text-gray-900 dark:text-white mt-1">
-                                @if ($advocate->date_of_enrolment_supreme_court)
-                                {{ $advocate->date_of_enrolment_supreme_court->format('d-m-Y') }}
-                                <span class="text-xs text-gray-600 dark:text-gray-400 block mt-1">
-                                    ({{ $advocate->getDetailedAgeDifference($advocate->date_of_enrolment_supreme_court)
-                                    }})
-                                </span>
-                                @else
-                                N/A
-                                @endif
-                            </p>
-                        </div>
-                        <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg md:col-span-3">
-                            <p class="text-sm font-semibold text-gray-600 dark:text-gray-400">Duration of Practice</p>
-                            <p class="text-lg font-bold text-gray-900 dark:text-white mt-1">
-                                @if ($advocate->duration_of_practice)
-                                {{ $advocate->duration_of_practice->format('d-m-Y') }}
-                                <span class="text-xs text-gray-600 dark:text-gray-400 block mt-1">
-                                    ({{ $advocate->getDetailedAgeDifference($advocate->duration_of_practice) }})
-                                </span>
-                                @else
-                                N/A
-                                @endif
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Footer Action -->
-            <div class="bg-gray-50 dark:bg-gray-700 px-8 py-6 flex justify-between items-center">
-                <p class="text-sm text-gray-600 dark:text-gray-400">
-                    Last Updated: {{ $advocate->updated_at->format('d-m-Y H:i') }}
-                </p>
-                <a href="{{ route('public.advocates.index') }}"
-                    class="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition duration-300">
-                    ← Back to List
-                </a>
             </div>
         </div>
     </div>
 
     <!-- Footer -->
-    <div class="bg-gray-800 text-white py-8 mt-12">
+    <div class="bg-gray-800 text-white py-8 mt-12 screen-only">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <p class="text-sm text-gray-400">
                 © 2025 AJK Bar Council Members Directory
