@@ -1,61 +1,321 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# AJK Bar Council - Member Directory System
 
 <p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
+    <img src="public/icons-images/logo.jpg" width="200" alt="AJK Bar Council Logo">
 </p>
 
-## About Laravel
+A comprehensive web-based management system for the Azad Jammu and Kashmir Bar Council to manage bar associations, advocates, and provide a public search directory.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## 🎯 Features
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### Public Features
+- **Public Advocate Search**: Google-style search interface for finding advocates
+- **Advanced Search**: Filter by name, mobile number, email, bar association, and father's name
+- **Advocate Profiles**: Detailed public profiles with contact information and enrollment dates
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### Admin Features
+- **Bar Association Management**: Create, read, update, delete (CRUD) bar associations
+- **Advocate Management**: Full CRUD operations for advocate records
+- **User Management**: Role-based access control with Laravel Jetstream
+- **Activity Logging**: Track all changes with Spatie Activity Log
+- **Soft Deletes**: Safe deletion with restore capabilities
+- **Dashboard**: Statistics and quick access to key metrics
+- **Two-Factor Authentication**: Enhanced security for user accounts
 
-## Learning Laravel
+## 🛠️ Technology Stack
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+- **Framework**: Laravel 12.x
+- **PHP**: 8.2+
+- **Authentication**: Laravel Jetstream with Livewire
+- **Frontend**: Tailwind CSS 3.x
+- **Database**: MySQL/PostgreSQL/SQLite
+- **Testing**: Pest PHP
+- **Build Tool**: Vite
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+### Key Dependencies
+- **laravel/jetstream**: Authentication scaffolding with teams support
+- **spatie/laravel-activitylog**: Activity logging
+- **spatie/laravel-permission**: Role and permission management
+- **spatie/laravel-query-builder**: Advanced query filtering
+- **livewire/livewire**: Dynamic frontend components
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## 📋 Requirements
 
-## Laravel Sponsors
+- PHP 8.2 or higher
+- Composer 2.x
+- Node.js 18.x or higher
+- NPM 9.x or higher
+- MySQL 8.0+ / PostgreSQL 13+ / SQLite 3.x
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## 🚀 Installation
 
-### Premium Partners
+### 1. Clone the Repository
+```bash
+git clone https://github.com/alimarchal/ajkbarcouncil-orignal.git
+cd ajkbarcouncil
+```
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+### 2. Install Dependencies
+```bash
+# Install PHP dependencies
+composer install
 
-## Contributing
+# Install Node.js dependencies
+npm install
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### 3. Environment Configuration
+```bash
+# Copy the example environment file
+cp .env.example .env
 
-## Code of Conduct
+# Generate application key
+php artisan key:generate
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### 4. Database Configuration
+Edit your `.env` file and configure your database:
 
-## Security Vulnerabilities
+```env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=ajkbarcouncil
+DB_USERNAME=your_username
+DB_PASSWORD=your_password
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### 5. Run Migrations and Seed Database
+```bash
+# Fresh migration with seeders (WARNING: This will drop all tables!)
+php artisan migrate:fresh --seed
+```
 
-## License
+This will create:
+- Users table with authentication
+- Bar Associations table
+- Advocates table
+- Activity logs
+- Permission and role tables
+- Sample data for testing
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+### 6. Build Frontend Assets
+```bash
+# For development
+npm run dev
+
+# For production
+npm run build
+```
+
+### 7. Start the Development Server
+```bash
+# Using Laravel's built-in server
+php artisan serve
+
+# Or use Laravel Herd (macOS)
+# Access at: https://ajkbarcouncil.test
+```
+
+## 🧪 Testing
+
+The project includes comprehensive tests using Pest PHP.
+
+```bash
+# Run all tests
+php artisan test
+
+# Run with coverage
+php artisan test --coverage
+
+# Run specific test suite
+php artisan test --testsuite=Feature
+
+# Run specific test file
+php artisan test tests/Feature/AdvocateTest.php
+```
+
+### Test Coverage
+- ✅ Advocate CRUD operations (29 tests)
+- ✅ Bar Association CRUD operations (23 tests)
+- ✅ Authentication and Authorization (7 tests)
+- ✅ User Profile Management (8 tests)
+- ✅ Password Management (7 tests)
+- ✅ Two-Factor Authentication (3 tests)
+
+**Total**: 77 passing tests with 175 assertions
+
+## 📁 Project Structure
+
+```
+ajkbarcouncil/
+├── app/
+│   ├── Actions/          # Jetstream actions
+│   ├── Helpers/          # Helper classes (FileStorageHelper)
+│   ├── Http/
+│   │   ├── Controllers/  # Application controllers
+│   │   └── Requests/     # Form request validations
+│   ├── Models/           # Eloquent models
+│   ├── Policies/         # Authorization policies
+│   └── Traits/           # Reusable traits (UserTracking)
+├── database/
+│   ├── factories/        # Model factories
+│   ├── migrations/       # Database migrations
+│   └── seeders/          # Database seeders
+├── public/
+│   └── icons-images/     # Public assets and logos
+├── resources/
+│   ├── css/             # Stylesheets
+│   ├── js/              # JavaScript files
+│   └── views/           # Blade templates
+│       ├── advocates/   # Advocate management views
+│       ├── bar-associations/ # Bar association views
+│       ├── public/      # Public-facing views
+│       └── auth/        # Authentication views
+├── routes/
+│   ├── web.php          # Web routes
+│   └── api.php          # API routes
+└── tests/
+    ├── Feature/         # Feature tests
+    └── Unit/            # Unit tests
+```
+
+## 🔐 Default Login Credentials
+
+After running `php artisan migrate:fresh --seed`, you can login with:
+
+```
+Email: admin@example.com
+Password: password
+```
+
+> ⚠️ **Important**: Change default credentials in production!
+
+## 📊 Database Schema
+
+### Bar Associations
+- id, name, address, phone
+- is_active (status)
+- created_by, updated_by (user tracking)
+- timestamps, soft deletes
+
+### Advocates
+- id, name, father_husband_name
+- bar_association_id (foreign key)
+- permanent_member_of_bar_association
+- mobile_no, email_address
+- date_of_enrolment_lower_courts
+- date_of_enrolment_high_court
+- date_of_enrolment_supreme_court
+- is_active (status)
+- created_by, updated_by (user tracking)
+- timestamps, soft deletes
+
+## 🌐 Routes
+
+### Public Routes
+- `GET /` - Home (redirects to public advocates)
+- `GET /public/advocates` - Public advocate search
+- `GET /public/advocates/{id}` - Advocate public profile
+
+### Authenticated Routes
+- `GET /dashboard` - Admin dashboard
+- `Resource /bar-associations` - Bar association CRUD
+- `PATCH /bar-associations/{id}/restore` - Restore deleted association
+- `Resource /advocates` - Advocate CRUD
+- `PATCH /advocates/{id}/restore` - Restore deleted advocate
+- `GET /advocates/report` - Advocate reports
+
+## 🎨 Features in Detail
+
+### Public Search Page
+- Google-style search interface
+- Real-time search with filters
+- Advanced search options
+- Pagination
+- Responsive design (mobile-friendly)
+
+### Dashboard
+- Total bar associations count
+- Total advocates count
+- Total users count
+- Active vs inactive statistics
+- Quick action cards
+
+### User Tracking
+All records automatically track:
+- Who created the record
+- Who last updated the record
+- When it was created/updated
+- Activity logs for audit trail
+
+## 🔧 Configuration
+
+### File Storage
+The system uses a custom `FileStorageHelper` for managing file uploads. Configure storage in `config/filesystems.php`.
+
+### Activity Logging
+Activity logs are automatically captured for all models. View logs in the database `activity_log` table.
+
+## 🚀 Deployment
+
+### Production Checklist
+1. Set `APP_ENV=production` in `.env`
+2. Set `APP_DEBUG=false`
+3. Run `php artisan config:cache`
+4. Run `php artisan route:cache`
+5. Run `php artisan view:cache`
+6. Run `npm run build`
+7. Set proper file permissions
+8. Configure proper database credentials
+9. Set up SSL certificate
+10. Configure proper backup strategy
+
+### Optimization
+```bash
+# Cache configuration
+php artisan config:cache
+
+# Cache routes
+php artisan route:cache
+
+# Cache views
+php artisan view:cache
+
+# Optimize autoloader
+composer install --optimize-autoloader --no-dev
+```
+
+## 🤝 Contributing
+
+Contributions are welcome! Please follow these steps:
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## 📝 License
+
+This project is licensed under the MIT License.
+
+## 👥 Support
+
+For support, email [support@ajkbarcouncil.gov.pk](mailto:support@ajkbarcouncil.gov.pk)
+
+## 🔄 Version History
+
+### Version 1.0.0 (October 2025)
+- Initial release
+- Bar Association management
+- Advocate management
+- Public search interface
+- User authentication with Jetstream
+- Activity logging
+- Comprehensive test suite
+
+---
+
+**Developed for**: Azad Jammu and Kashmir Bar Council  
+**Repository**: https://github.com/alimarchal/ajkbarcouncil-orignal
