@@ -164,6 +164,7 @@
             max-height: 1000px;
             opacity: 1;
             margin-top: 30px;
+            margin-bottom: 30px;
         }
 
         .advanced-search-container {
@@ -172,7 +173,7 @@
             border-radius: 8px;
             padding: 24px;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-            max-width: 90vw;
+            max-width: 75%;
             margin: 0 auto;
         }
 
@@ -517,221 +518,220 @@
                             Advanced Search
                         </button>
                     </div>
+                </div>
 
-                    <!-- Advanced Filters -->
-                    <div id="advancedFilters" class="advanced-search">
-                        <div class="advanced-search-container">
-                            <h3 class="advanced-search-title">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M10 18h4v-2h-4v2zM3 6v2h18V6H3zm3 7h12v-2H6v2z" fill="#5f6368" />
-                                </svg>
-                                Advanced Search Options
-                            </h3>
-                            <div class="advanced-search-grid">
-                                <div class="advanced-search-field">
-                                    <label class="advanced-search-label">📱 Mobile Number</label>
-                                    <input type="text" name="filter[mobile_no]"
-                                        value="{{ request('filter.mobile_no') }}" class="advanced-search-input"
-                                        placeholder="Enter mobile number">
-                                </div>
-                                <div class="advanced-search-field">
-                                    <label class="advanced-search-label">✉️ Email Address</label>
-                                    <input type="email" name="filter[email_address]"
-                                        value="{{ request('filter.email_address') }}" class="advanced-search-input"
-                                        placeholder="Enter email address">
-                                </div>
-                                <div class="advanced-search-field">
-                                    <label class="advanced-search-label">🏛️ Bar Association</label>
-                                    <select name="filter[bar_association_id]" class="advanced-search-select">
-                                        <option value="">All Associations</option>
-                                        @foreach ($barAssociations as $ba)
-                                        <option value="{{ $ba->id }}" {{ request('filter.bar_association_id')==$ba->id
-                                            ? 'selected' : '' }}>
-                                            {{ $ba->name }}
-                                        </option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="advanced-search-field">
-                                    <label class="advanced-search-label">👤 Father's Name</label>
-                                    <input type="text" name="filter[father_husband_name]"
-                                        value="{{ request('filter.father_husband_name') }}"
-                                        class="advanced-search-input" placeholder="Enter father's name">
-                                </div>
+                <!-- Advanced Filters -->
+                <div id="advancedFilters" class="advanced-search">
+                    <div class="advanced-search-container">
+                        <h3 class="advanced-search-title">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path d="M10 18h4v-2h-4v2zM3 6v2h18V6H3zm3 7h12v-2H6v2z" fill="#5f6368" />
+                            </svg>
+                            Advanced Search Options
+                        </h3>
+                        <div class="advanced-search-grid">
+                            <div class="advanced-search-field">
+                                <label class="advanced-search-label">📱 Mobile Number</label>
+                                <input type="text" name="filter[mobile_no]" value="{{ request('filter.mobile_no') }}"
+                                    class="advanced-search-input" placeholder="Enter mobile number">
                             </div>
-                            <div
-                                style="text-align: right; margin-top: 20px; padding-top: 20px; border-top: 1px solid #e8eaed;">
-                                <button type="button" onclick="toggleAdvanced()"
-                                    style="background: transparent; border: 1px solid #dadce0; border-radius: 4px; color: #5f6368; font-size: 14px; padding: 8px 16px; cursor: pointer; margin-right: 8px;">
-                                    Cancel
-                                </button>
-                                <button type="submit" class="advanced-button">
-                                    Apply Filters
-                                </button>
+                            <div class="advanced-search-field">
+                                <label class="advanced-search-label">✉️ Email Address</label>
+                                <input type="email" name="filter[email_address]"
+                                    value="{{ request('filter.email_address') }}" class="advanced-search-input"
+                                    placeholder="Enter email address">
                             </div>
+                            <div class="advanced-search-field">
+                                <label class="advanced-search-label">🏛️ Bar Association</label>
+                                <select name="filter[bar_association_id]" class="advanced-search-select">
+                                    <option value="">All Associations</option>
+                                    @foreach ($barAssociations as $ba)
+                                    <option value="{{ $ba->id }}" {{ request('filter.bar_association_id')==$ba->id
+                                        ? 'selected' : '' }}>
+                                        {{ $ba->name }}
+                                    </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="advanced-search-field">
+                                <label class="advanced-search-label">👤 Father's Name</label>
+                                <input type="text" name="filter[father_husband_name]"
+                                    value="{{ request('filter.father_husband_name') }}" class="advanced-search-input"
+                                    placeholder="Enter father's name">
+                            </div>
+                        </div>
+                        <div
+                            style="text-align: right; margin-top: 20px; padding-top: 20px; border-top: 1px solid #e8eaed;">
+                            <button type="button" onclick="toggleAdvanced()"
+                                style="background: transparent; border: 1px solid #dadce0; border-radius: 4px; color: #5f6368; font-size: 14px; padding: 8px 16px; cursor: pointer; margin-right: 8px;">
+                                Cancel
+                            </button>
+                            <button type="submit" class="advanced-button">
+                                Apply Filters
+                            </button>
                         </div>
                     </div>
                 </div>
+            </form>
         </div>
-        </form>
-    </div>
 
-    @else
-    <!-- Results Page - Google Style -->
-    <div style="padding: 20px 0;">
-        <!-- Results Header with Search Box -->
-        <form method="GET" action="{{ route('public.advocates.index') }}">
-            <div class="results-header" style="display: flex; align-items: center; gap: 32px; margin-bottom: 16px;">
-                <!-- Logo -->
-                <a href="{{ route('public.advocates.index') }}" style="flex-shrink: 0;">
-                    <img src="{{ asset('icons-images/logo.jpg') }}" alt="Logo"
-                        style="height: 40px; width: 40px; object-fit: contain;">
-                </a>
-
-                <!-- Search Box -->
-                <div class="results-search-box" style="flex: 1;">
-                    <svg class="search-icon" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                        <path fill="currentColor"
-                            d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z">
-                        </path>
-                    </svg>
-                    <input type="text" name="search" value="{{ request('search') }}" class="search-input"
-                        autocomplete="off">
-                    @if(request('search'))
-                    <a href="{{ route('public.advocates.index') }}" style="padding: 0 8px;">
-                        <svg focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20"
-                            height="20">
-                            <path fill="#70757a"
-                                d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z">
-                            </path>
-                        </svg>
+        @else
+        <!-- Results Page - Google Style -->
+        <div style="padding: 20px 0;">
+            <!-- Results Header with Search Box -->
+            <form method="GET" action="{{ route('public.advocates.index') }}">
+                <div class="results-header" style="display: flex; align-items: center; gap: 32px; margin-bottom: 16px;">
+                    <!-- Logo -->
+                    <a href="{{ route('public.advocates.index') }}" style="flex-shrink: 0;">
+                        <img src="{{ asset('icons-images/logo.jpg') }}" alt="Logo"
+                            style="height: 40px; width: 40px; object-fit: contain;">
                     </a>
-                    @endif
-                    <button type="submit" style="background: none; border: none; padding: 0 8px; cursor: pointer;">
+
+                    <!-- Search Box -->
+                    <div class="results-search-box" style="flex: 1;">
                         <svg class="search-icon" focusable="false" xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 24 24">
-                            <path fill="#4285f4"
+                            <path fill="currentColor"
                                 d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z">
                             </path>
                         </svg>
-                    </button>
-                </div>
-            </div>
-
-            <!-- Hidden filters -->
-            @foreach(request('filter', []) as $key => $value)
-            <input type="hidden" name="filter[{{ $key }}]" value="{{ $value }}">
-            @endforeach
-        </form>
-
-        <!-- Navigation Tabs -->
-        <div class="nav-tabs">
-            <a href="#" class="nav-tab active">
-                <svg focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                    <path fill="currentColor"
-                        d="M10 2v2a6 6 0 0 1 6 6h2a8 8 0 0 0-8-8zm0 4v2a2 2 0 0 1 2 2h2c0-2.21-1.79-4-4-4zm8.5 2c-.28 0-.5.22-.5.5v10c0 .28.22.5.5.5s.5-.22.5-.5v-10c0-.28-.22-.5-.5-.5zM12 8c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm0 6c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z">
-                    </path>
-                </svg>
-                All
-            </a>
-        </div>
-
-        <!-- Results -->
-        @if (count($advocates) > 0)
-        <div class="results-container">
-            <!-- Results Count -->
-            <div class="results-count">
-                About {{ number_format($advocates->total()) }} results
-            </div>
-
-            <!-- Results List -->
-            @foreach ($advocates as $advocate)
-            <div class="result-item">
-                <!-- URL/Bar Association -->
-                <div class="result-url">
-                    <span class="result-url-text">{{ $advocate->barAssociation->name ?? 'N/A' }}</span>
-                    @if($advocate->permanent_member_of_bar_association)
-                    <span style="color: #70757a; margin: 0 4px;">›</span>
-                    <span style="color: #70757a;">{{ $advocate->permanent_member_of_bar_association }}</span>
-                    @endif
+                        <input type="text" name="search" value="{{ request('search') }}" class="search-input"
+                            autocomplete="off">
+                        @if(request('search'))
+                        <a href="{{ route('public.advocates.index') }}" style="padding: 0 8px;">
+                            <svg focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20"
+                                height="20">
+                                <path fill="#70757a"
+                                    d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z">
+                                </path>
+                            </svg>
+                        </a>
+                        @endif
+                        <button type="submit" style="background: none; border: none; padding: 0 8px; cursor: pointer;">
+                            <svg class="search-icon" focusable="false" xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 24 24">
+                                <path fill="#4285f4"
+                                    d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z">
+                                </path>
+                            </svg>
+                        </button>
+                    </div>
                 </div>
 
-                <!-- Title/Name -->
-                <h3 class="result-title">
-                    <a href="{{ route('public.advocates.show', $advocate->id) }}">
-                        {{ $advocate->name }}
-                    </a>
-                    <span class="badge {{ $advocate->is_active ? 'badge-active' : 'badge-inactive' }}">
-                        {{ $advocate->is_active ? '✓ Active' : '✗ Inactive' }}
-                    </span>
-                </h3>
+                <!-- Hidden filters -->
+                @foreach(request('filter', []) as $key => $value)
+                <input type="hidden" name="filter[{{ $key }}]" value="{{ $value }}">
+                @endforeach
+            </form>
 
-                <!-- Snippet/Description -->
-                <div class="result-snippet">
-                    @if($advocate->mobile_no || $advocate->email_address)
-                    <div style="margin-bottom: 4px;">
-                        @if($advocate->mobile_no)
-                        <span>📱 {{ $advocate->mobile_no }}</span>
-                        @endif
-                        @if($advocate->mobile_no && $advocate->email_address)
-                        <span style="margin: 0 8px;">•</span>
-                        @endif
-                        @if($advocate->email_address)
-                        <span>✉️ {{ $advocate->email_address }}</span>
+            <!-- Navigation Tabs -->
+            <div class="nav-tabs">
+                <a href="#" class="nav-tab active">
+                    <svg focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path fill="currentColor"
+                            d="M10 2v2a6 6 0 0 1 6 6h2a8 8 0 0 0-8-8zm0 4v2a2 2 0 0 1 2 2h2c0-2.21-1.79-4-4-4zm8.5 2c-.28 0-.5.22-.5.5v10c0 .28.22.5.5.5s.5-.22.5-.5v-10c0-.28-.22-.5-.5-.5zM12 8c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm0 6c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z">
+                        </path>
+                    </svg>
+                    All
+                </a>
+            </div>
+
+            <!-- Results -->
+            @if (count($advocates) > 0)
+            <div class="results-container">
+                <!-- Results Count -->
+                <div class="results-count">
+                    About {{ number_format($advocates->total()) }} results
+                </div>
+
+                <!-- Results List -->
+                @foreach ($advocates as $advocate)
+                <div class="result-item">
+                    <!-- URL/Bar Association -->
+                    <div class="result-url">
+                        <span class="result-url-text">{{ $advocate->barAssociation->name ?? 'N/A' }}</span>
+                        @if($advocate->permanent_member_of_bar_association)
+                        <span style="color: #70757a; margin: 0 4px;">›</span>
+                        <span style="color: #70757a;">{{ $advocate->permanent_member_of_bar_association }}</span>
                         @endif
                     </div>
-                    @endif
 
-                    @if($advocate->father_husband_name)
-                    <div>S/O {{ $advocate->father_husband_name }}</div>
-                    @endif
+                    <!-- Title/Name -->
+                    <h3 class="result-title">
+                        <a href="{{ route('public.advocates.show', $advocate->id) }}">
+                            {{ $advocate->name }}
+                        </a>
+                        <span class="badge {{ $advocate->is_active ? 'badge-active' : 'badge-inactive' }}">
+                            {{ $advocate->is_active ? '✓ Active' : '✗ Inactive' }}
+                        </span>
+                    </h3>
 
-                    @if($advocate->date_of_enrolment_lower_courts || $advocate->date_of_enrolment_high_court ||
-                    $advocate->date_of_enrolment_supreme_court)
-                    <div style="color: #70757a; font-size: 13px; margin-top: 4px;">
-                        @if($advocate->date_of_enrolment_lower_courts)
-                        Lower Courts: {{ $advocate->date_of_enrolment_lower_courts->format('M d, Y') }}
+                    <!-- Snippet/Description -->
+                    <div class="result-snippet">
+                        @if($advocate->mobile_no || $advocate->email_address)
+                        <div style="margin-bottom: 4px;">
+                            @if($advocate->mobile_no)
+                            <span>📱 {{ $advocate->mobile_no }}</span>
+                            @endif
+                            @if($advocate->mobile_no && $advocate->email_address)
+                            <span style="margin: 0 8px;">•</span>
+                            @endif
+                            @if($advocate->email_address)
+                            <span>✉️ {{ $advocate->email_address }}</span>
+                            @endif
+                        </div>
                         @endif
-                        @if($advocate->date_of_enrolment_high_court)
-                        • High Court: {{ $advocate->date_of_enrolment_high_court->format('M d, Y') }}
+
+                        @if($advocate->father_husband_name)
+                        <div>S/O {{ $advocate->father_husband_name }}</div>
                         @endif
-                        @if($advocate->date_of_enrolment_supreme_court)
-                        • Supreme Court: {{ $advocate->date_of_enrolment_supreme_court->format('M d, Y') }}
+
+                        @if($advocate->date_of_enrolment_lower_courts || $advocate->date_of_enrolment_high_court ||
+                        $advocate->date_of_enrolment_supreme_court)
+                        <div style="color: #70757a; font-size: 13px; margin-top: 4px;">
+                            @if($advocate->date_of_enrolment_lower_courts)
+                            Lower Courts: {{ $advocate->date_of_enrolment_lower_courts->format('M d, Y') }}
+                            @endif
+                            @if($advocate->date_of_enrolment_high_court)
+                            • High Court: {{ $advocate->date_of_enrolment_high_court->format('M d, Y') }}
+                            @endif
+                            @if($advocate->date_of_enrolment_supreme_court)
+                            • Supreme Court: {{ $advocate->date_of_enrolment_supreme_court->format('M d, Y') }}
+                            @endif
+                        </div>
                         @endif
                     </div>
-                    @endif
+                </div>
+                @endforeach
+
+                <!-- Pagination -->
+                <div style="margin-top: 40px;">
+                    {{ $advocates->onEachSide(1)->links() }}
                 </div>
             </div>
-            @endforeach
+            @endif
 
-            <!-- Pagination -->
-            <div style="margin-top: 40px;">
-                {{ $advocates->onEachSide(1)->links() }}
+            <!-- No Results -->
+            @if (count($advocates) === 0)
+            <div class="no-results">
+                <div class="no-results-icon">🔍</div>
+                <div class="no-results-text">
+                    Your search - <strong>{{ request('search') }}</strong> - did not match any members.
+                </div>
+                <div class="no-results-suggestions">
+                    <p style="margin: 10px 0;"><strong>Suggestions:</strong></p>
+                    <ul style="margin: 0; padding-left: 20px; line-height: 1.8;">
+                        <li>Make sure all words are spelled correctly.</li>
+                        <li>Try different keywords.</li>
+                        <li>Try more general keywords.</li>
+                        <li>Try using the advanced search options.</li>
+                    </ul>
+                </div>
             </div>
+            @endif
         </div>
         @endif
-
-        <!-- No Results -->
-        @if (count($advocates) === 0)
-        <div class="no-results">
-            <div class="no-results-icon">🔍</div>
-            <div class="no-results-text">
-                Your search - <strong>{{ request('search') }}</strong> - did not match any members.
-            </div>
-            <div class="no-results-suggestions">
-                <p style="margin: 10px 0;"><strong>Suggestions:</strong></p>
-                <ul style="margin: 0; padding-left: 20px; line-height: 1.8;">
-                    <li>Make sure all words are spelled correctly.</li>
-                    <li>Try different keywords.</li>
-                    <li>Try more general keywords.</li>
-                    <li>Try using the advanced search options.</li>
-                </ul>
-            </div>
-        </div>
-        @endif
-    </div>
-    @endif
     </div>
 
     <!-- Footer -->
