@@ -50,7 +50,15 @@ class PublicAdvocateController extends Controller
 
         // Only paginate if there's a search or filter
         $hasSearch = $request->filled('search') || $request->filled('filter');
-        $advocates = $hasSearch ? $query->paginate(15) : collect();
+
+        if ($hasSearch) {
+            $advocates = $query->paginate(15);
+
+            // Append all current request parameters except 'page' to pagination links
+            $advocates->appends($request->except('page'));
+        } else {
+            $advocates = collect();
+        }
 
         $barAssociations = BarAssociation::where('is_active', true)->orderBy('name')->get();
 

@@ -12,6 +12,6 @@ class AdvocateSeeder extends Seeder
      */
     public function run(): void
     {
-        Advocate::factory()->count(50)->create();
+        Advocate::factory()->count(300)->create();
     }
 }
