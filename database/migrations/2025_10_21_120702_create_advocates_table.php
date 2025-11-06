@@ -15,15 +15,15 @@ return new class extends Migration {
             $table->uuid('id')->primary();
 
             // 1. Permanent Member of Bar Association (Foreign Key)
-            $table->uuid('bar_association_id');
+            $table->uuid('bar_association_id')->nullable();
             $table->foreign('bar_association_id')->references('id')->on('bar_associations')->onDelete('cascade');
 
             // 2. Name
-            $table->string('name');
+            $table->string('name')->nullable();
             // 3. Father/Husband Name
-            $table->string('father_husband_name');
+            $table->string('father_husband_name')->nullable();
             // 4. Complete Address
-            $table->text('complete_address');
+            $table->text('complete_address')->nullable();
 
             // 5. Visitor Member of Bar Association
             $table->string('visitor_member_of_bar_association')->nullable();
@@ -43,9 +43,9 @@ return new class extends Migration {
             $table->date('duration_of_practice')->nullable();
 
             // 13. Mobile No
-            $table->string('mobile_no', 20);
+            $table->string('mobile_no', 100)->nullable();
             // 14. Email Address
-            $table->string('email_address')->unique();
+            $table->string('email_address')->nullable();
 
             // 15. Is Active
             $table->boolean('is_active')->default(true);
