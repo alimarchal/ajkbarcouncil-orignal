@@ -5,15 +5,17 @@ use App\Http\Controllers\BarAssociationController;
 use App\Http\Controllers\AdvocateController;
 use App\Http\Controllers\PublicAdvocateController;
 
-Route::get('/', function () {
-    return redirect()->route('public.advocates.index');
-});
+// Route::get('/', function () {
+//     return redirect()->route('advocates.public.index');
+// });
 
+
+Route::get('/', [PublicAdvocateController::class, 'index'])->name('homepage.index');
+Route::get('advocates/{advocate}/view', [PublicAdvocateController::class, 'show'])->name('homepage.advocateShow');
 // Public Routes (No Authentication Required)
-Route::prefix('public')->name('public.')->group(function () {
-    Route::get('advocates', [PublicAdvocateController::class, 'index'])->name('advocates.index');
-    Route::get('advocates/{advocate}', [PublicAdvocateController::class, 'show'])->name('advocates.show');
-});
+// Route::prefix('public')->name('public.')->group(function () {
+
+// });
 
 Route::middleware([
     'auth:sanctum',

@@ -491,13 +491,13 @@
         <div style="padding-top: 8vh;">
             <!-- Logo -->
             <div class="logo-container">
-                <a href="{{ route('public.advocates.index') }}">
+                <a href="{{ route('homepage.index') }}">
                     <img src="{{ asset('icons-images/logo.jpg') }}" alt="AJK Bar Council Logo" class="logo">
                 </a>
             </div>
 
             <!-- Search Form -->
-            <form method="GET" action="{{ route('public.advocates.index') }}">
+            <form method="GET" action="{{ route('homepage.index') }}">
                 <div class="search-container">
                     <!-- Search Box -->
                     <div class="search-box" id="searchBox">
@@ -592,10 +592,10 @@
         <!-- Results Page - Google Style -->
         <div style="padding: 20px 0;">
             <!-- Results Header with Search Box -->
-            <form method="GET" action="{{ route('public.advocates.index') }}">
+            <form method="GET" action="{{ route('homepage.index') }}">
                 <div class="results-header" style="display: flex; align-items: center; gap: 32px;">
                     <!-- Logo -->
-                    <a href="{{ route('public.advocates.index') }}" style="flex-shrink: 0;">
+                    <a href="{{ route('homepage.index') }}" style="flex-shrink: 0;">
                         <img src="{{ asset('icons-images/logo.jpg') }}" alt="Logo"
                             style="height: 40px; width: 40px; object-fit: contain;">
                     </a>
@@ -611,7 +611,7 @@
                         <input type="text" name="search" value="{{ request('search') }}" class="search-input"
                             autocomplete="off">
                         @if(request('search'))
-                        <a href="{{ route('public.advocates.index') }}" style="padding: 0 8px;">
+                        <a href="{{ route('homepage.index') }}" style="padding: 0 8px;">
                             <svg focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20"
                                 height="20">
                                 <path fill="#70757a"
@@ -674,7 +674,7 @@
 
                     <!-- Title/Name -->
                     <h3 class="result-title">
-                        <a href="{{ route('public.advocates.show', $advocate->id) }}"
+                        <a href="{{ route('homepage.advocateShow', $advocate->id) }}"
                             style="display: inline-flex; align-items: center; gap: 8px;">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                                 stroke="currentColor" style="width: 20px; height: 20px;">

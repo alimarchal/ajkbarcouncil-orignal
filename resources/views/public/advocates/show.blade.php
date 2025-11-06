@@ -185,7 +185,7 @@
         <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
             <!-- Action Buttons (Screen Only) -->
             <div class="mb-4 screen-only flex justify-between items-center">
-                <a href="{{ route('public.advocates.index') }}"
+                <a href="{{ route('homepage.index') }}"
                     class="inline-flex items-center px-4 py-2 bg-blue-950 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-800 focus:bg-blue-800 active:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150">
                     <svg class="w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                         stroke="currentColor">
