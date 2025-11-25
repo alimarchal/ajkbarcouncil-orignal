@@ -151,108 +151,6 @@
             box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
         }
 
-        /* Advanced Search Styles */
-        .advanced-search {
-            max-height: 0;
-            overflow: hidden;
-            opacity: 0;
-            transition: max-height 0.4s ease, opacity 0.3s ease, margin-top 0.3s ease;
-            margin-top: 0;
-        }
-
-        .advanced-search.open {
-            max-height: 1000px;
-            opacity: 1;
-            margin-top: 30px;
-            margin-bottom: 30px;
-        }
-
-        .advanced-search-container {
-            background: #fff;
-            border: 1px solid #dfe1e5;
-            border-radius: 8px;
-            padding: 24px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-            max-width: 75%;
-            margin: 0 auto;
-        }
-
-        .advanced-search-title {
-            margin: 0 0 24px 0;
-            font-size: 18px;
-            color: #202124;
-            font-weight: 500;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .advanced-search-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 20px;
-        }
-
-        .advanced-search-field {
-            position: relative;
-        }
-
-        .advanced-search-label {
-            display: block;
-            font-size: 13px;
-            color: #5f6368;
-            margin-bottom: 8px;
-            font-weight: 500;
-        }
-
-        .advanced-search-input,
-        .advanced-search-select {
-            width: 100%;
-            padding: 10px 14px;
-            border: 1px solid #dfe1e5;
-            border-radius: 6px;
-            font-size: 14px;
-            font-family: arial, sans-serif;
-            transition: border-color 0.2s, box-shadow 0.2s;
-            background: #fff;
-            color: #202124;
-        }
-
-        .advanced-search-input:focus,
-        .advanced-search-select:focus {
-            outline: none;
-            border-color: #4285f4;
-            box-shadow: 0 0 0 3px rgba(66, 133, 244, 0.1);
-        }
-
-        .advanced-search-input:hover,
-        .advanced-search-select:hover {
-            border-color: #4285f4;
-        }
-
-        .advanced-button {
-            background-color: #1a73e8;
-            border: none;
-            border-radius: 4px;
-            color: #fff;
-            font-family: arial, sans-serif;
-            font-size: 14px;
-            font-weight: 500;
-            padding: 10px 24px;
-            cursor: pointer;
-            transition: background-color 0.2s, box-shadow 0.2s;
-            margin-top: 16px;
-        }
-
-        .advanced-button:hover {
-            background-color: #1765cc;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
-        }
-
-        .advanced-button:active {
-            background-color: #1557b0;
-        }
-
         /* Results Header (Small Search Box) */
         .results-header {
             padding: 12px 20px 0 180px;
@@ -472,14 +370,6 @@
             .no-results {
                 padding-left: 20px;
             }
-
-            .advanced-search-container {
-                max-width: 95%;
-            }
-
-            .advanced-search-grid {
-                grid-template-columns: 1fr;
-            }
         }
     </style>
 </head>
@@ -496,8 +386,14 @@
                 </a>
             </div>
 
+            <!-- Page Heading -->
+            <div style="text-align: center; margin-bottom: 25px;">
+                <h1 style="font-size: 28px; font-weight: 600; color: #202124; margin-bottom: 8px;">Lawyer's Verification</h1>
+                <p style="font-size: 18px; color: #5f6368; margin: 0;">Verify Enrolled Lawyers ( AJK Bar Council)</p>
+            </div>
+
             <!-- Search Form -->
-            <form method="GET" action="{{ route('homepage.index') }}">
+            <form method="GET" action="{{ route('homepage.index') }}" id="searchForm" onsubmit="return validateSearch()">
                 <div class="search-container">
                     <!-- Search Box -->
                     <div class="search-box" id="searchBox">
@@ -521,68 +417,16 @@
                         </span>
                     </div>
 
+                    <!-- Validation Error Message -->
+                    <div id="searchError" style="display: none; color: #c5221f; font-size: 14px; margin-top: 10px; text-align: center;">
+                        Please enter a search term before searching.
+                    </div>
+
                     <!-- Buttons -->
                     <div class="button-container">
                         <button type="submit" class="google-button">
                             Search Members
                         </button>
-                        <button type="button" onclick="toggleAdvanced()" class="google-button">
-                            Advanced Search
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Advanced Filters -->
-                <div id="advancedFilters" class="advanced-search">
-                    <div class="advanced-search-container">
-                        <h3 class="advanced-search-title">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path d="M10 18h4v-2h-4v2zM3 6v2h18V6H3zm3 7h12v-2H6v2z" fill="#5f6368" />
-                            </svg>
-                            Advanced Search Options
-                        </h3>
-                        <div class="advanced-search-grid">
-                            <div class="advanced-search-field">
-                                <label class="advanced-search-label">📱 Mobile Number</label>
-                                <input type="text" name="filter[mobile_no]" value="{{ request('filter.mobile_no') }}"
-                                    class="advanced-search-input" placeholder="Enter mobile number">
-                            </div>
-                            <div class="advanced-search-field">
-                                <label class="advanced-search-label">✉️ Email Address</label>
-                                <input type="email" name="filter[email_address]"
-                                    value="{{ request('filter.email_address') }}" class="advanced-search-input"
-                                    placeholder="Enter email address">
-                            </div>
-                            <div class="advanced-search-field">
-                                <label class="advanced-search-label">🏛️ Bar Association</label>
-                                <select name="filter[bar_association_id]" class="advanced-search-select">
-                                    <option value="">All Associations</option>
-                                    @foreach ($barAssociations as $ba)
-                                    <option value="{{ $ba->id }}" {{ request('filter.bar_association_id')==$ba->id
-                                        ? 'selected' : '' }}>
-                                        {{ $ba->name }}
-                                    </option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="advanced-search-field">
-                                <label class="advanced-search-label">👤 Father's Name</label>
-                                <input type="text" name="filter[father_husband_name]"
-                                    value="{{ request('filter.father_husband_name') }}" class="advanced-search-input"
-                                    placeholder="Enter father's name">
-                            </div>
-                        </div>
-                        <div
-                            style="text-align: right; margin-top: 20px; padding-top: 20px; border-top: 1px solid #e8eaed;">
-                            <button type="button" onclick="toggleAdvanced()"
-                                style="background: transparent; border: 1px solid #dadce0; border-radius: 4px; color: #5f6368; font-size: 14px; padding: 8px 16px; cursor: pointer; margin-right: 8px;">
-                                Cancel
-                            </button>
-                            <button type="submit" class="advanced-button">
-                                Apply Filters
-                            </button>
-                        </div>
                     </div>
                 </div>
             </form>
@@ -810,15 +654,26 @@
                 if (clearButton) {
                     clearButton.style.display = this.value ? 'block' : 'none';
                 }
+                // Hide error message when user starts typing
+                const errorDiv = document.getElementById('searchError');
+                if (errorDiv) {
+                    errorDiv.style.display = 'none';
+                }
             });
         }
 
-        // Toggle advanced search
-        function toggleAdvanced() {
-            const filters = document.getElementById('advancedFilters');
-            if (filters) {
-                filters.classList.toggle('open');
+        // Validate search form before submission
+        function validateSearch() {
+            const searchInput = document.getElementById('searchInput');
+            const errorDiv = document.getElementById('searchError');
+            
+            if (!searchInput || !searchInput.value.trim()) {
+                if (errorDiv) {
+                    errorDiv.style.display = 'block';
+                }
+                return false;
             }
+            return true;
         }
     </script>
 

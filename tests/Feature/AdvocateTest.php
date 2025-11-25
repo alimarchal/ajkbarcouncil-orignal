@@ -219,7 +219,7 @@ describe('Advocate Create', function () {
                 'date_of_enrolment_lower_courts' => '2015-01-15',
                 'date_of_enrolment_high_court' => '2018-06-20',
                 'date_of_enrolment_supreme_court' => '2020-09-10',
-                'duration_of_practice' => '2015-01-01',
+                'duration_of_practice' => 2015,
             ]);
 
         $response->assertRedirect(route('advocates.index'));

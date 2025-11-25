@@ -107,10 +107,11 @@
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
                             <!-- Duration of Practice -->
                             <div>
-                                <x-label for="duration_of_practice" value="Duration of Practice (Start Date)" />
-                                <x-input id="duration_of_practice" type="date" name="duration_of_practice"
+                                <x-label for="duration_of_practice" value="Practice Since (Year)" />
+                                <x-input id="duration_of_practice" type="number" name="duration_of_practice"
                                     class="mt-1 block w-full"
-                                    :value="old('duration_of_practice', $advocate->duration_of_practice)" />
+                                    :value="old('duration_of_practice', $advocate->duration_of_practice)"
+                                    min="1900" max="{{ date('Y') }}" placeholder="e.g., 1990" />
                             </div>
 
                             <!-- Status -->

@@ -36,7 +36,7 @@ class Advocate extends Model
         'date_of_enrolment_lower_courts' => 'date',
         'date_of_enrolment_high_court' => 'date',
         'date_of_enrolment_supreme_court' => 'date',
-        'duration_of_practice' => 'date',
+        'duration_of_practice' => 'integer',
     ];
 
     /**
