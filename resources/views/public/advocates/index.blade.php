@@ -602,7 +602,6 @@
                         <li>Make sure all words are spelled correctly.</li>
                         <li>Try different keywords.</li>
                         <li>Try more general keywords.</li>
-                        <li>Try using the advanced search options.</li>
                     </ul>
                 </div>
             </div>
