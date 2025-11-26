@@ -26,7 +26,7 @@ class AdvocateFactory extends Factory
             'date_of_enrolment_high_court' => fake()->optional(0.5)->date('Y-m-d', '2015-01-01'),
             'date_of_enrolment_supreme_court' => fake()->optional(0.2)->date('Y-m-d', '2020-01-01'),
             'voter_member_of_bar_association' => fake()->optional(0.8)->date('Y-m-d', '2018-01-01'),
-            'duration_of_practice' => fake()->numberBetween(1980, (int) date('Y')),
+            'duration_of_practice' => fake()->date('Y-m-d', '2005-01-01'),
             'mobile_no' => fake()->unique()->numerify('##########'),
             'email_address' => fake()->unique()->safeEmail(),
             'is_active' => fake()->boolean(90), // 90% chance of being active

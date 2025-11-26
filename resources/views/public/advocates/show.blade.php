@@ -319,7 +319,7 @@
                                 </td>
                                 <td class="px-2 py-2 border border-black text-left">
                                     @if($advocate->duration_of_practice)
-                                    Since {{ $advocate->duration_of_practice }}
+                                    Since {{ $advocate->duration_of_practice->format('Y') }}
                                     @else
                                     N/A
                                     @endif
