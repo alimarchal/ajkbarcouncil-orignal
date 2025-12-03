@@ -315,14 +315,11 @@
                             </tr>
                             <tr
                                 class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 print:hover:bg-white">
-                                <td class="px-2 py-2 border border-black text-left font-semibold">Duration of Practice
+                                <td class="px-2 py-2 border border-black text-left font-semibold">Practice Since
                                 </td>
                                 <td class="px-2 py-2 border border-black text-left">
                                     @if($advocate->duration_of_practice)
-                                    {{ $advocate->duration_of_practice->format('d-m-Y') }}
-                                    <span class="text-xs text-gray-600">({{
-                                        $advocate->getDetailedAgeDifference($advocate->duration_of_practice)
-                                        }})</span>
+                                    Since {{ $advocate->duration_of_practice->format('Y') }}
                                     @else
                                     N/A
                                     @endif
