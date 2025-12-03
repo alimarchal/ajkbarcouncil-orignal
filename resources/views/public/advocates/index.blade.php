@@ -388,12 +388,14 @@
 
             <!-- Page Heading -->
             <div style="text-align: center; margin-bottom: 25px;">
-                <h1 style="font-size: 28px; font-weight: 600; color: #202124; margin-bottom: 8px;">Lawyer's Verification</h1>
+                <h1 style="font-size: 28px; font-weight: 600; color: #202124; margin-bottom: 8px;">Lawyer's Verification
+                </h1>
                 <p style="font-size: 18px; color: #5f6368; margin: 0;">Verify Enrolled Lawyers ( AJK Bar Council)</p>
             </div>
 
             <!-- Search Form -->
-            <form method="GET" action="{{ route('homepage.index') }}" id="searchForm" onsubmit="return validateSearch()">
+            <form method="GET" action="{{ route('homepage.index') }}" id="searchForm"
+                onsubmit="return validateSearch()">
                 <div class="search-container">
                     <!-- Search Box -->
                     <div class="search-box" id="searchBox">
@@ -418,7 +420,8 @@
                     </div>
 
                     <!-- Validation Error Message -->
-                    <div id="searchError" style="display: none; color: #c5221f; font-size: 14px; margin-top: 10px; text-align: center;">
+                    <div id="searchError"
+                        style="display: none; color: #c5221f; font-size: 14px; margin-top: 10px; text-align: center;">
                         Please enter a search term before searching.
                     </div>
 
@@ -617,15 +620,15 @@
         </div>
         <div class="footer-links">
             <div>
-                <a href="#" class="footer-link">Home</a>
-                <a href="#" class="footer-link">Advertising</a>
-                <a href="#" class="footer-link">Business</a>
-                <a href="#" class="footer-link">How Search works</a>
+                <a href="#" class="footer-link">&nbsp;</a>
+                <a href="#" class="footer-link">&nbsp;</a>
+                <a href="#" class="footer-link">&nbsp;</a>
+                <a href="#" class="footer-link">&nbsp;</a>
             </div>
             <div>
-                <a href="#" class="footer-link">Privacy</a>
-                <a href="#" class="footer-link">Terms</a>
-                <a href="#" class="footer-link">Settings</a>
+                <a href="#" class="footer-link">&nbsp;</a>
+                <a href="#" class="footer-link">&nbsp;</a>
+                <a href="#" class="footer-link">&nbsp;</a>
             </div>
         </div>
     </div>
